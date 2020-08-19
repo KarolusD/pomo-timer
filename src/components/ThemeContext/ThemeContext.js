@@ -6,6 +6,14 @@ class ThemeContextProvider extends React.Component {
   state = {
     theme: themes.pomo,
   }
+
+  handleThemeChange = (timerState) => {
+    console.log(timerState)
+    this.setState({
+      theme: timerState === 'pomo' ? themes.pomo : themes.break,
+    })
+  }
+
   render() {
     const { theme } = this.state
     const { children } = this.props

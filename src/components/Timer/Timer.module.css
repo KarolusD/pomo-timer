@@ -1,0 +1,34 @@
+.timerContainer {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.timer {
+  position: relative;
+  width: 204px;
+  height: 204px;
+  border-radius: 50%;
+}
+
+.timerFg {
+  width: 162px;
+  height: 162px;
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-81px, -81px);
+}
+
+.time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  font-weight: 700;
+}
