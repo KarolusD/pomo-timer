@@ -1,0 +1,14 @@
+.playButton {
+  box-shadow: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  height: 56px;
+}
+
+.playButton > label {
+  cursor: pointer;
+}

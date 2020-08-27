@@ -6,14 +6,15 @@ import { ThemeContextProvider } from '../../components/ThemeContext/ThemeContext
 
 class App extends React.Component {
   state = {
-    pomoTime: 10,
+    pomoTime: 630,
     breakTime: 5,
     timerRuns: false,
+    timerEnds: false,
+    pomoStart: false,
     timerState: 'pomo',
   }
 
   themeRef = React.createRef()
-  //timerRef = React.createRef()
 
   handleTimerState = () => {
     this.setState(
@@ -24,22 +25,61 @@ class App extends React.Component {
     )
   }
 
-  handleTimerRuns = () => {
-    this.setState((prevState) => ({
-      timerRuns: !prevState.timerRuns,
-    }))
+  handleTimerRuns = (run) => {
+    this.setState({ timerRuns: run })
+  }
+
+  handleTimerEnds = (ends) => {
+    this.setState({ timerEnds: ends })
+  }
+
+  handleTimerReset = () => {
+    this.setState(
+      {
+        timerState: 'pomo',
+        timerRuns: false,
+        timerEnds: false,
+        pomoStart: false,
+      },
+      () => this.themeRef.current.handleThemeChange(this.state.timerState)
+    )
+  }
+
+  handlePomoStart = () => {
+    this.setState({ pomoStart: true })
   }
 
   render() {
-    const { timerState, pomoTime, breakTime } = this.state
-    const { handleTimerState, handleTimerRuns, themeRef } = this
+    const {
+      timerState,
+      pomoTime,
+      breakTime,
+      timerRuns,
+      pomoStart,
+      timerEnds,
+    } = this.state
+    const {
+      handleTimerState,
+      handleTimerRuns,
+      handleTimerEnds,
+      handleTimerReset,
+      handlePomoStart,
+      themeRef,
+    } = this
     return (
       <ThemeContextProvider ref={themeRef}>
         <Page>
           <Timer
             handleTimerState={handleTimerState}
             handleTimerRuns={handleTimerRuns}
+            handleTimerEnds={handleTimerEnds}
+            handleTimerReset={handleTimerReset}
+            handlePomoStart={handlePomoStart}
             startingTimerTime={timerState === 'pomo' ? pomoTime : breakTime}
+            timerState={timerState}
+            timerRuns={timerRuns}
+            timerEnds={timerEnds}
+            pomoStart={pomoStart}
           />
         </Page>
       </ThemeContextProvider>

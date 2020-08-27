@@ -1,10 +1,14 @@
 .timerContainer {
+  position: relative;
   padding: 0;
   margin: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: top;
+  flex-direction: column;
   height: 100%;
+  width: auto;
+  top: 15%;
 }
 
 .timer {
@@ -12,6 +16,20 @@
   width: 204px;
   height: 204px;
   border-radius: 50%;
+  margin-bottom: 100px;
+}
+
+.timerRing {
+  stroke-width: 4px;
+}
+
+.timerSegment {
+  transform: rotate(-90deg);
+  transform-origin: 50%;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-dashoffset: 120px;
+  stroke-dasharray: 120px;
 }
 
 .timerFg {
@@ -26,9 +44,20 @@
 
 .time {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
+  font-size: 38px;
   font-weight: 700;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 204px;
+  width: 204px;
+  top: 0;
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 200px;
 }
