@@ -10,7 +10,7 @@
   background: transparent;
   min-width: 128px;
   margin-top: 32px;
-  transition: 200ms ease-out;
+  transition: background 200ms ease-out;
   cursor: pointer;
 }
 

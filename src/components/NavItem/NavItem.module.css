@@ -1,0 +1,15 @@
+.navItem {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  list-style-type: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.navItem > a {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

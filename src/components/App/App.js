@@ -1,7 +1,13 @@
 import React from 'react'
 import './App.css'
-import Page from '../../components/Page/Page'
-import Timer from '../../components/Timer/Timer'
+import Page from '../Page/Page'
+import Timer from '../Timer/Timer'
+import NavBar from '../NavBar/NavBar'
+import NavItem from '../NavItem/NavItem'
+import DropDown from '../DropDown/DropDown'
+import settings from '../../assets/icons/settings.svg'
+import volumeOn from '../../assets/icons/volume-on.svg'
+import volumeOff from '../../assets/icons/volume-off.svg'
 import { ThemeContextProvider } from '../../components/ThemeContext/ThemeContext'
 
 class App extends React.Component {
@@ -69,6 +75,12 @@ class App extends React.Component {
     return (
       <ThemeContextProvider ref={themeRef}>
         <Page>
+          <NavBar>
+            <NavItem icon={volumeOff} />
+            <NavItem icon={settings}>
+              <DropDown />
+            </NavItem>
+          </NavBar>
           <Timer
             handleTimerState={handleTimerState}
             handleTimerRuns={handleTimerRuns}

@@ -22,6 +22,7 @@ const Timer = ({
   const rAF = useRef()
 
   useEffect(() => {
+    console.log('siema')
     if (timerEnds || !pomoStart) {
       setCurrentTime(startingTimerTime)
     }
