@@ -1,0 +1,21 @@
+.toggleButton {
+  position: relative;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  appearance: none;
+  width: 60px;
+  height: 34px;
+  border-radius: 17px;
+  cursor: pointer;
+}
+
+.switch {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}

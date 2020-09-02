@@ -3,35 +3,18 @@
   top: 72px;
   right: 16px;
   width: 300px;
-  height: auto;
+  padding: 8px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  padding: 16px;
   overflow: hidden;
   border-radius: 16px;
-  box-shadow: 0 50px 50px -20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 50px 50px -20px rgba(0, 0, 0, 0.1);
+  transition: height 300ms ease;
 }
 
-.dropDownItem {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  height: 48px;
-  width: 100%;
-  transition: background 200ms;
-  padding: 8px;
-}
-
-.dropDownIcon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 8px;
-}
-
-.rightIcon {
-  margin-left: auto;
+@media (min-width: 1024px) {
+  .dropDown {
+    right: 24px;
+  }
 }

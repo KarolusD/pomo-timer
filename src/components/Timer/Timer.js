@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import styles from './Timer.module.css'
 import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
 import Button from '../Button/Button'
@@ -15,6 +15,7 @@ const Timer = ({
   timerRuns,
   timerEnds,
   pomoStart,
+  autoStartBreak,
 }) => {
   const [currentTime, setCurrentTime] = useState(startingTimerTime)
   const [fullRunTime, setFullRunTime] = useState(0)
@@ -22,11 +23,17 @@ const Timer = ({
   const rAF = useRef()
 
   useEffect(() => {
-    console.log('siema')
     if (timerEnds || !pomoStart) {
       setCurrentTime(startingTimerTime)
     }
-  }, [pomoStart, startingTimerTime, timerEnds])
+  }, [pomoStart, startingTimerTime, timerEnds, timerState])
+
+  useEffect(() => {
+    if (timerState === 'break' && autoStartBreak) {
+      handleTimer()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerState])
 
   const startTimer = (timestamp, startTime, duration, startRunTime) => {
     let currentRunTime = (timestamp - startTime) / 1000 // conversion to seconds
@@ -36,7 +43,7 @@ const Timer = ({
     handleTimerAnimation({ progress })
 
     setFullRunTime(runTime)
-    setCurrentTime(currentTime - currentRunTime)
+    setCurrentTime(startingTimerTime - runTime)
 
     if (!pomoStart) {
       handlePomoStart()
@@ -86,17 +93,17 @@ const Timer = ({
   const handleTimerQuit = () => {
     cancelAnimationFrame(rAF.current) // canceling the animation
     handleTimerAnimation({ progress: 1 }) // reseting timer dasharray
-    handleTimerReset() // reseting app state
+    handleTimerReset() // reseting timer state
     setCurrentTime(startingTimerTime) // reseting current time
     setFullRunTime(0) // reseting run time
   }
 
   const handleTimerEnding = () => {
+    setFullRunTime(0)
     cancelAnimationFrame(rAF.current) // canceling the animation
     handleTimerState() // pomo or break
     handleTimerRuns() // timer stop or start
     handleTimerEnds(true) // timer is at 0:00
-    setFullRunTime(0)
   }
 
   const handleButtonDisplay = () => {
@@ -143,6 +150,9 @@ const Timer = ({
     const hourDisplay = hour > 0 ? `${hour}` : ''
     const minDisplay = min > 9 ? `${min}` : `0${min}`
     const secDisplay = sec > 9 ? sec : `0${sec}`
+
+    // console.log('display time')
+    // console.log(`${hourDisplay}:${minDisplay}:${secDisplay}`)
 
     return (
       <>

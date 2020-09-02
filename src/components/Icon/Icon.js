@@ -1,18 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SVG from 'react-inlinesvg'
+import styles from './Icon.module.css'
+import { ReactSVG } from 'react-svg'
 
 const Icon = ({ src, fill }) => (
-  <>
-    <SVG
-      src={src}
-      preProcessor={(code) => code.replace(/fill=".*?"/g, `fill=${fill} `)}
-    />
-  </>
+  <ReactSVG
+    src={src}
+    beforeInjection={(svg) => {
+      svg.setAttribute('fill', `${fill}`)
+    }}
+    wrapper='div'
+    className={styles.iconWrapper}
+  />
 )
 
 Icon.propTypes = {
   src: PropTypes.string.isRequired,
+  fill: PropTypes.string.isRequired,
 }
 
 export default Icon

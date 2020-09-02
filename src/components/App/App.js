@@ -8,16 +8,18 @@ import DropDown from '../DropDown/DropDown'
 import settings from '../../assets/icons/settings.svg'
 import volumeOn from '../../assets/icons/volume-on.svg'
 import volumeOff from '../../assets/icons/volume-off.svg'
+import close from '../../assets/icons/close.svg'
 import { ThemeContextProvider } from '../../components/ThemeContext/ThemeContext'
 
 class App extends React.Component {
   state = {
-    pomoTime: 630,
+    pomoTime: 10,
     breakTime: 5,
     timerRuns: false,
     timerEnds: false,
     pomoStart: false,
     timerState: 'pomo',
+    autoStartBreak: true,
   }
 
   themeRef = React.createRef()
@@ -63,6 +65,7 @@ class App extends React.Component {
       timerRuns,
       pomoStart,
       timerEnds,
+      autoStartBreak,
     } = this.state
     const {
       handleTimerState,
@@ -77,7 +80,7 @@ class App extends React.Component {
         <Page>
           <NavBar>
             <NavItem icon={volumeOff} />
-            <NavItem icon={settings}>
+            <NavItem icon={settings} secondaryIcon={close} changeable={true}>
               <DropDown />
             </NavItem>
           </NavBar>
@@ -92,6 +95,7 @@ class App extends React.Component {
             timerRuns={timerRuns}
             timerEnds={timerEnds}
             pomoStart={pomoStart}
+            autoStartBreak={autoStartBreak}
           />
         </Page>
       </ThemeContextProvider>

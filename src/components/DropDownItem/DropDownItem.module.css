@@ -1,0 +1,69 @@
+.dropDownItem {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 64px;
+  width: 284px;
+  transition: background 200ms;
+  padding: 16px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: background 200ms ease-in-out;
+}
+
+.dropDownItem:hover {
+  background: #f5f5f5;
+}
+
+.dropDownIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  border-radius: 50%;
+}
+
+.rightIcon {
+  margin-left: auto;
+}
+
+.menuTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 8px;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.menuTitleContainer {
+  height: 64px;
+  padding: 16px 4px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.menuTitleIcon {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menuTitleIcon:hover {
+  background: #f5f5f5;
+}
+
+.menuTitleContainer > a {
+  display: flex;
+  align-items: center;
+}

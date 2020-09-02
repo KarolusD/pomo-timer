@@ -3,7 +3,7 @@ import Icon from '../Icon/Icon'
 import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
 import styles from './NavItem.module.css'
 
-const NavItem = ({ icon, children }) => {
+const NavItem = ({ icon, secondaryIcon, changeable, children }) => {
   const [open, setOpen] = useState(false)
 
   const handleClick = (event) => {
@@ -16,7 +16,10 @@ const NavItem = ({ icon, children }) => {
       {(theme) => (
         <li className={styles.navItem} style={{ backgroundColor: theme.white }}>
           <a href='_target' onClick={handleClick}>
-            <Icon src={icon} fill={theme.main} />
+            <Icon
+              src={changeable && open ? secondaryIcon : icon}
+              fill={theme.main}
+            />
           </a>
 
           {open && children}
