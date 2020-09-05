@@ -22,4 +22,4 @@ const PlayButton = ({ timerRuns, handleClick }) => {
   )
 }
 
-export default PlayButton
+export default React.memo(PlayButton)

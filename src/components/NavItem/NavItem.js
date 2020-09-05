@@ -29,4 +29,4 @@ const NavItem = ({ icon, secondaryIcon, changeable, children }) => {
   )
 }
 
-export default NavItem
+export default React.memo(NavItem)

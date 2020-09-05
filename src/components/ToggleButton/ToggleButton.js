@@ -3,8 +3,8 @@ import { Transition } from 'react-transition-group'
 import styles from './ToggleButton.module.css'
 import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
 
-const ToggleButton = ({ on = false }) => {
-  const [isOn, setIsOn] = useState(on)
+const ToggleButton = ({ toggleState, handleToggleState }) => {
+  //const [isOn, setIsOn] = useState(toggleState)
 
   const transitionStyles = {
     entering: { transform: 'translateX(26px)' },
@@ -14,18 +14,18 @@ const ToggleButton = ({ on = false }) => {
   }
 
   const handleClick = () => {
-    setIsOn(!isOn)
+    handleToggleState()
   }
 
   return (
     <ThemeContextConsumer>
       {(theme) => (
         <button
-          style={{ background: isOn ? theme.main : theme.whitesmoke }}
+          style={{ background: toggleState ? theme.main : theme.whitesmoke }}
           className={styles.toggleButton}
-          onClick={() => setIsOn(!isOn)}
+          onClick={handleClick}
         >
-          <Transition in={isOn} timeout={500}>
+          <Transition in={toggleState} timeout={500}>
             {(state) => (
               <span
                 style={{ background: theme.white, ...transitionStyles[state] }}

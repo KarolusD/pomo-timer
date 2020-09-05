@@ -14,4 +14,4 @@ const NavBar = ({ children }) => {
   )
 }
 
-export default NavBar
+export default React.memo(NavBar)

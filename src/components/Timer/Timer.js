@@ -1,39 +1,63 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import styles from './Timer.module.css'
 import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
 import Button from '../Button/Button'
 import PlayButton from '../PlayButton/PlayButton'
+import { MenuContext } from '../MenuContext/MenuContext'
 
 const Timer = ({
-  startingTimerTime,
   handleTimerState,
   handleTimerReset,
   handleTimerRuns,
   handleTimerEnds,
   handlePomoStart,
+  handlePassedPomos,
+  startingTimerTime,
   timerState,
   timerRuns,
   timerEnds,
   pomoStart,
-  autoStartBreak,
+  passedPomos,
 }) => {
   const [currentTime, setCurrentTime] = useState(startingTimerTime)
   const [fullRunTime, setFullRunTime] = useState(0)
+
   const timerRef = useRef()
   const rAF = useRef()
 
+  const menuContext = useContext(MenuContext)
+
   useEffect(() => {
+    // Setting starting timer time
     if (timerEnds || !pomoStart) {
       setCurrentTime(startingTimerTime)
     }
   }, [pomoStart, startingTimerTime, timerEnds, timerState])
 
   useEffect(() => {
-    if (timerState === 'break' && autoStartBreak) {
+    // Auto starting pomo
+    if (timerState === 'pomo' && menuContext.autoStartPomo && pomoStart) {
       handleTimer()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerState])
+
+  useEffect(() => {
+    // Auto starting break
+    if (timerState === 'break' && menuContext.autoStartBreak) {
+      handleTimer()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerState])
+
+  useEffect(() => {
+    const { handleRingtone } = menuContext
+    console.log(timerState, timerEnds, menuContext)
+    if (timerEnds) {
+      handleRingtone(timerState)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerEnds, timerState])
 
   const startTimer = (timestamp, startTime, duration, startRunTime) => {
     let currentRunTime = (timestamp - startTime) / 1000 // conversion to seconds
@@ -98,11 +122,14 @@ const Timer = ({
     setFullRunTime(0) // reseting run time
   }
 
-  const handleTimerEnding = () => {
-    setFullRunTime(0)
+  const handleTimerEnding = async () => {
+    setFullRunTime(0) // reseting run time
     cancelAnimationFrame(rAF.current) // canceling the animation
+    if (timerState === 'pomo') {
+      await handlePassedPomos() // adding 1 to passed pomos
+    }
     handleTimerState() // pomo or break
-    handleTimerRuns() // timer stop or start
+    handleTimerRuns(false) // timer stop
     handleTimerEnds(true) // timer is at 0:00
   }
 
@@ -120,15 +147,33 @@ const Timer = ({
     )
 
     if (!timerRuns && timerEnds) {
-      if (pomoStart) {
+      if (pomoStart && !menuContext.autoStartPomo && timerState === 'pomo') {
         return (
           <>
             {startButton}
             {quitButton}
           </>
         )
-      } else {
+      } else if (
+        pomoStart &&
+        !menuContext.autoStartBreak &&
+        timerState === 'break'
+      ) {
+        return (
+          <>
+            {startButton}
+            {quitButton}
+          </>
+        )
+      } else if (!pomoStart) {
         return <>{startButton}</>
+      } else {
+        return (
+          <>
+            {startButton}
+            {quitButton}
+          </>
+        )
       }
     } else if (!timerEnds && pomoStart) {
       return (
@@ -161,13 +206,13 @@ const Timer = ({
             <span style={{ width: '30px', textAlign: 'right' }}>
               {hourDisplay}
             </span>
-            <span style={{ width: '15px', textAlign: 'center' }}>
+            <span style={{ width: '15px', textAlign: 'right' }}>
               {hour ? ':' : null}
             </span>
           </>
         ) : null}
-        <span style={{ width: '50px', textAlign: 'right' }}>{minDisplay}</span>
-        <span style={{ width: '15px', textAlign: 'center' }}>:</span>
+        <span style={{ width: '50px', textAlign: 'center' }}>{minDisplay}</span>
+        <span style={{ width: '15px', textAlign: 'left' }}>:</span>
         <span style={{ width: '50px', textAlign: 'left' }}>{secDisplay}</span>
       </>
     )
@@ -221,4 +266,4 @@ const Timer = ({
   )
 }
 
-export default Timer
+export default React.memo(Timer)

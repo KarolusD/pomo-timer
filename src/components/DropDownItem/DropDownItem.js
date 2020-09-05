@@ -5,14 +5,15 @@ import styles from './DropDownItem.module.css'
 import ToggleButton from '../ToggleButton/ToggleButton'
 
 const DropDownItem = ({
+  clickable,
   leftIcon,
-  rightIcon,
   children,
   goToMenu,
   setActiveMenu,
   title,
   toggle,
-  clickable,
+  toggleState,
+  handleToggleState,
 }) => {
   const handleClick = (event) => {
     event.preventDefault()
@@ -58,7 +59,12 @@ const DropDownItem = ({
               </div>
             )}
             {children}
-            {toggle && <ToggleButton />}
+            {toggle && (
+              <ToggleButton
+                toggleState={toggleState}
+                handleToggleState={handleToggleState}
+              />
+            )}
           </a>
         )
       }

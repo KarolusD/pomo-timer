@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { themes } from '../../theme/theme'
-const { Provider, Consumer } = React.createContext(themes.pomo)
+const ThemeContext = React.createContext(themes.pomo)
+const { Provider, Consumer } = ThemeContext
 
-class ThemeContextProvider extends React.Component {
+class ThemeContextProvider extends Component {
   state = {
     theme: themes.pomo,
   }
@@ -22,4 +23,4 @@ class ThemeContextProvider extends React.Component {
   }
 }
 
-export { ThemeContextProvider, Consumer as ThemeContextConsumer }
+export { ThemeContextProvider, Consumer as ThemeContextConsumer, ThemeContext }

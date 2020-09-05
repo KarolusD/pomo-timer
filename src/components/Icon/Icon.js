@@ -19,4 +19,4 @@ Icon.propTypes = {
   fill: PropTypes.string.isRequired,
 }
 
-export default Icon
+export default React.memo(Icon)
