@@ -17,15 +17,21 @@ const Timer = ({
   timerRuns,
   timerEnds,
   pomoStart,
-  passedPomos,
 }) => {
-  const [currentTime, setCurrentTime] = useState(startingTimerTime)
+  const menuContext = useContext(MenuContext)
+  const {
+    autoStartPomo,
+    autoStartBreak,
+    handleRingtone,
+    pomoTime,
+    breakTime,
+  } = menuContext
+
+  const [currentTime, setCurrentTime] = useState(pomoTime)
   const [fullRunTime, setFullRunTime] = useState(0)
 
   const timerRef = useRef()
   const rAF = useRef()
-
-  const menuContext = useContext(MenuContext)
 
   useEffect(() => {
     // Setting starting timer time
@@ -36,23 +42,21 @@ const Timer = ({
 
   useEffect(() => {
     // Auto starting pomo
-    if (timerState === 'pomo' && menuContext.autoStartPomo && pomoStart) {
+    if (timerState === 'pomo' && autoStartPomo && pomoStart) {
       handleTimer()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timerState])
 
-  useEffect(() => {
     // Auto starting break
-    if (timerState === 'break' && menuContext.autoStartBreak) {
+    if (timerState === 'break' && autoStartBreak) {
       handleTimer()
+    }
+
+    if (timerState === 'pomo' && !autoStartPomo) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerState])
 
   useEffect(() => {
-    const { handleRingtone } = menuContext
-    console.log(timerState, timerEnds, menuContext)
     if (timerEnds) {
       handleRingtone(timerState)
     }
@@ -134,6 +138,8 @@ const Timer = ({
   }
 
   const handleButtonDisplay = () => {
+    const { autoStartPomo, autoStartBreak } = menuContext
+
     const startButton = (
       <Button
         primary
@@ -146,28 +152,17 @@ const Timer = ({
       <PlayButton timerRuns={timerRuns} handleClick={handleTimerStopOrPlay} />
     )
 
-    if (!timerRuns && timerEnds) {
-      if (pomoStart && !menuContext.autoStartPomo && timerState === 'pomo') {
+    if (!pomoStart) {
+      return <>{startButton}</>
+    } else {
+      if ((timerRuns || !timerRuns) && !timerEnds) {
         return (
           <>
-            {startButton}
+            {playButton}
             {quitButton}
           </>
         )
-      } else if (
-        pomoStart &&
-        !menuContext.autoStartBreak &&
-        timerState === 'break'
-      ) {
-        return (
-          <>
-            {startButton}
-            {quitButton}
-          </>
-        )
-      } else if (!pomoStart) {
-        return <>{startButton}</>
-      } else {
+      } else if (timerEnds) {
         return (
           <>
             {startButton}
@@ -175,15 +170,6 @@ const Timer = ({
           </>
         )
       }
-    } else if (!timerEnds && pomoStart) {
-      return (
-        <>
-          {playButton}
-          {quitButton}
-        </>
-      )
-    } else if (!pomoStart) {
-      return <>{startButton}</>
     }
   }
 

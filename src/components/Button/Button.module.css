@@ -12,6 +12,7 @@
   margin-top: 32px;
   transition: background 200ms ease-out;
   cursor: pointer;
+  width: 140px;
 }
 
 .btn:hover {

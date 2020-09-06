@@ -7,8 +7,8 @@ export const MenuContext = React.createContext()
 
 class MenuContextProvider extends Component {
   state = {
-    autoStartBreak: false,
     autoStartPomo: false,
+    autoStartBreak: false,
     pomoTime: 3,
     breakTime: 3,
     longBreakTime: 600,
