@@ -8,12 +8,25 @@ import timer from '../../assets/icons/timer.svg'
 import target from '../../assets/icons/target.svg'
 import { MenuContext } from '../MenuContext/MenuContext'
 import TimeSettings from '../TimeSettings/TimeSettings'
+import FocusGoalSettings from '../FocusGoalSettings/FocusGoalSettings'
 
 const DropDown = () => {
   const [activeMenu, setActiveMenu] = useState('main')
   const [menuHeight, setMenuHeight] = useState(null)
 
   const menuContext = useContext(MenuContext)
+  const {
+    autoStartPomo,
+    autoStartBreak,
+    pomoRingtone,
+    breakRingtone,
+    pomoTime,
+    focusGoal,
+    handlePomoRingtone,
+    handleBreakRingtone,
+    handleAutoStartPomo,
+    handleAutoStartBreak,
+  } = menuContext
 
   const calcHeight = (el) => {
     const height = el.offsetHeight + 16 // heigh + extra bottom-padding
@@ -38,33 +51,53 @@ const DropDown = () => {
             onEnter={calcHeight}
           >
             <div className='menu'>
-              <DropDownItem leftIcon={target} clickable>
+              <DropDownItem
+                setActiveMenu={setActiveMenu}
+                goToMenu='goal'
+                leftIcon={target}
+                clickable
+                currentState={focusGoal}
+              >
                 Daily focus goal
               </DropDownItem>
+
               <DropDownItem
                 setActiveMenu={setActiveMenu}
                 goToMenu='settings'
                 leftIcon={timer}
                 clickable
+                currentState={pomoTime}
               >
                 Set pomo time
               </DropDownItem>
               <DropDownItem
                 toggle
-                toggleState={menuContext.autoStartPomo}
-                handleToggleState={menuContext.handleAutoStartPomo}
+                toggleState={autoStartPomo}
+                handleToggleState={handleAutoStartPomo}
               >
                 Auto start of next pomo
               </DropDownItem>
               <DropDownItem
                 toggle
-                toggleState={menuContext.autoStartBreak}
-                handleToggleState={menuContext.handleAutoStartBreak}
+                toggleState={autoStartBreak}
+                handleToggleState={handleAutoStartBreak}
               >
                 Auto start of break
               </DropDownItem>
-              <DropDownItem toggle>Pomo ringtone</DropDownItem>
-              <DropDownItem toggle>Break ringtone</DropDownItem>
+              <DropDownItem
+                toggle
+                toggleState={pomoRingtone}
+                handleToggleState={handlePomoRingtone}
+              >
+                Pomo ringtone
+              </DropDownItem>
+              <DropDownItem
+                toggle
+                toggleState={breakRingtone}
+                handleToggleState={handleBreakRingtone}
+              >
+                Break ringtone
+              </DropDownItem>
             </div>
           </CSSTransition>
 
@@ -85,6 +118,26 @@ const DropDown = () => {
                 Set pomo time
               </DropDownItem>
               <TimeSettings />
+            </div>
+          </CSSTransition>
+
+          <CSSTransition
+            in={activeMenu === 'goal'}
+            unmountOnExit
+            timeout={500}
+            classNames='menu-secondary'
+            onEnter={calcHeight}
+          >
+            <div className='menu'>
+              <DropDownItem
+                title
+                setActiveMenu={setActiveMenu}
+                leftIcon={arrowBack}
+                goToMenu='main'
+              >
+                Daily focus goal
+              </DropDownItem>
+              <FocusGoalSettings />
             </div>
           </CSSTransition>
         </div>

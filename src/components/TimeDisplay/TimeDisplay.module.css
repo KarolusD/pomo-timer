@@ -1,0 +1,12 @@
+.time {
+  position: absolute;
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 204px;
+  width: 204px;
+  top: 0;
+}

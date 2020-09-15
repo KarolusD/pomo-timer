@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import Input from '../Input/Input'
 import { MenuContext } from '../MenuContext/MenuContext'
 import styles from './TimeSettings.module.css'
+import { validateNumberInput } from '../../helpers/validateNumberInput'
 
 const TimeSettings = () => {
   const menuContext = useContext(MenuContext)
@@ -16,23 +17,23 @@ const TimeSettings = () => {
     handleLongBreakEvery,
   } = menuContext
 
+  const SEC_IN_MIN = 60
+
   const [formData, setFormData] = useState({
-    pomoTimeInput: (pomoTime / 60).toString(),
-    breakTimeInput: (breakTime / 60).toString(),
-    longBreakTimeInput: (longBreakTime / 60).toString(),
+    pomoTimeInput: (pomoTime / SEC_IN_MIN).toString(),
+    breakTimeInput: (breakTime / SEC_IN_MIN).toString(),
+    longBreakTimeInput: (longBreakTime / SEC_IN_MIN).toString(),
     longBreakEveryInput: longBreakEvery.toString(),
   })
 
+  const {
+    pomoTimeInput,
+    breakTimeInput,
+    longBreakTimeInput,
+    longBreakEveryInput,
+  } = formData
+
   useEffect(() => {
-    const {
-      pomoTimeInput,
-      breakTimeInput,
-      longBreakTimeInput,
-      longBreakEveryInput,
-    } = formData
-
-    const SEC_IN_MIN = 60
-
     if (pomoTime !== pomoTimeInput * SEC_IN_MIN) {
       handlePomoTime(Number(pomoTimeInput) * SEC_IN_MIN)
     }
@@ -52,43 +53,29 @@ const TimeSettings = () => {
     handleLongBreakEvery,
     pomoTime,
     breakTime,
-    formData,
     longBreakTime,
     longBreakEvery,
+    pomoTimeInput,
+    breakTimeInput,
+    longBreakTimeInput,
+    longBreakEveryInput,
   ])
-
-  const validate = (value, minNum = 0, maxNum = 600) => {
-    const validNumber = /^(0|[1-9]\d*)(\.\d+)?$/
-
-    return (
-      validNumber.test(value) &&
-      Number(value) > minNum &&
-      Number(value) < maxNum
-    )
-  }
 
   const updateFormData = (
     event,
     validateRules = { minNum: 0, maxNum: 600 }
   ) => {
+    event.preventDefault()
     const { value, name } = event.target
-    console.log(value, typeof value)
     const { minNum, maxNum } = validateRules
 
-    if (validate(value, minNum, maxNum)) {
+    if (validateNumberInput(value, minNum, maxNum)) {
       setFormData({
         ...formData,
         [name]: value,
       })
     }
   }
-
-  const {
-    pomoTimeInput,
-    breakTimeInput,
-    longBreakTimeInput,
-    longBreakEveryInput,
-  } = formData
 
   return (
     <form className={styles.container}>

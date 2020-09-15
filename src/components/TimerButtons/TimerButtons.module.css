@@ -1,0 +1,6 @@
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 200px;
+}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './Input.module.css'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
 
-const Input = ({ label, type, name, value, onChange, span }) => {
+const Input = ({ label, type, name, value, onChange, span, disabled }) => {
   const [inputState, setInputState] = useState('inactive')
 
   const handleBlur = () => {
@@ -58,6 +58,7 @@ const Input = ({ label, type, name, value, onChange, span }) => {
         style={inputStyles()}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        disabled={disabled ? true : false}
       />
       <span style={spanStyles()} className={styles.inputValue}>
         {span}

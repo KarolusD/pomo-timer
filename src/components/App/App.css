@@ -53,3 +53,7 @@
   transform: translateX(110%);
   transition: all 500ms ease;
 }
+
+svg path {
+  transition: 200ms ease;
+}

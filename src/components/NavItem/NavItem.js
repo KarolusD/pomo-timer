@@ -1,31 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Icon from '../Icon/Icon'
-import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
+import { MenuContext } from '../MenuContext/MenuContext'
 import styles from './NavItem.module.css'
 
-const NavItem = ({ icon, secondaryIcon, changeable, children }) => {
+const NavItem = ({ icon, secondaryIcon, changeable, sound, children }) => {
   const [open, setOpen] = useState(false)
+
+  const theme = useContext(ThemeContext)
+  const { soundOn, handleSoundOn } = useContext(MenuContext)
 
   const handleClick = (event) => {
     event.preventDefault()
     setOpen(!open)
+    if (sound) {
+      handleSoundOn()
+    }
+  }
+
+  const handleIconDisplay = () => {
+    if (sound) {
+      return changeable && soundOn ? secondaryIcon : icon
+    } else {
+      return changeable && open ? secondaryIcon : icon
+    }
   }
 
   return (
-    <ThemeContextConsumer>
-      {(theme) => (
-        <li className={styles.navItem} style={{ backgroundColor: theme.white }}>
-          <a href='_target' onClick={handleClick}>
-            <Icon
-              src={changeable && open ? secondaryIcon : icon}
-              fill={theme.main}
-            />
-          </a>
+    <li className={styles.navItem} style={{ backgroundColor: theme.white }}>
+      <a href='_target' onClick={handleClick}>
+        <Icon src={handleIconDisplay()} fill={theme.main} />
+      </a>
 
-          {open && children}
-        </li>
-      )}
-    </ThemeContextConsumer>
+      {open && children}
+    </li>
   )
 }
 

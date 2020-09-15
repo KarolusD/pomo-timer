@@ -16,7 +16,7 @@ export const themes = {
     background: '#DFFEEF',
     main: '#10D878',
     lightMain: '#C9FFE5',
-    midMain: '#5BE8A5',
+    midMain: '#4BDD98',
     white: '#FFFFFF',
     gray: '#6A6F6C',
     lightGray: '#989B9A',

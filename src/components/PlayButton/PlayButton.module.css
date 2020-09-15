@@ -16,6 +16,7 @@
 }
 
 .playButton > label {
+  transition: color 200ms ease;
   cursor: pointer;
   margin-top: 4px;
 }

@@ -1,0 +1,32 @@
+.timer {
+  position: relative;
+  width: 204px;
+  height: 204px;
+  border-radius: 50%;
+  margin-bottom: 100px;
+}
+
+.timerRing {
+  stroke-width: 4px;
+  transition: background 800ms ease;
+}
+
+.timerSegment {
+  transform: rotate(-90deg);
+  transform-origin: 50%;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-dashoffset: 120px;
+  stroke-dasharray: 120px;
+}
+
+.timerFg {
+  width: 162px;
+  height: 162px;
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-81px, -81px);
+  transition: background 800ms ease;
+}

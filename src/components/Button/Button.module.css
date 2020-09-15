@@ -10,9 +10,9 @@
   background: transparent;
   min-width: 128px;
   margin-top: 32px;
-  transition: background 200ms ease-out;
   cursor: pointer;
   width: 140px;
+  transition: background, color 200ms ease;
 }
 
 .btn:hover {

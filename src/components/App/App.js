@@ -9,7 +9,7 @@ import volumeOn from '../../assets/icons/volume-on.svg'
 import volumeOff from '../../assets/icons/volume-off.svg'
 import close from '../../assets/icons/close.svg'
 import { ThemeContextProvider } from '../ThemeContext/ThemeContext'
-import MenuContextProvider, { MenuContext } from '../MenuContext/MenuContext'
+import MenuContextProvider from '../MenuContext/MenuContext'
 const DropDown = React.lazy(() => import('../DropDown/DropDown'))
 
 class App extends React.Component {
@@ -17,8 +17,8 @@ class App extends React.Component {
     timerRuns: false,
     timerEnds: false,
     pomoStart: false,
-    timerState: 'pomo',
     passedPomos: 0,
+    timerState: 'pomo',
   }
 
   themeRef = React.createRef()
@@ -54,28 +54,11 @@ class App extends React.Component {
   }
 
   handlePomoStart = () => {
-    this.setState({ pomoStart: true })
+    this.setState(({ pomoStart }) => ({ pomoStart: !pomoStart }))
   }
 
   handlePassedPomos = () => {
     this.setState(({ passedPomos }) => ({ passedPomos: passedPomos + 1 }))
-  }
-
-  handleStartingTime = (menuContext) => {
-    const { longBreakEvery, pomoTime, breakTime, longBreakTime } = menuContext
-    const { passedPomos, timerState } = this.state
-
-    if (
-      passedPomos !== 0 &&
-      passedPomos % longBreakEvery === 0 &&
-      timerState === 'break'
-    ) {
-      return longBreakTime
-    } else if (timerState === 'break') {
-      return breakTime
-    } else if (timerState === 'pomo') {
-      return pomoTime
-    }
   }
 
   render() {
@@ -85,6 +68,7 @@ class App extends React.Component {
       pomoStart,
       timerEnds,
       passedPomos,
+      passedTime,
     } = this.state
 
     const {
@@ -94,41 +78,43 @@ class App extends React.Component {
       handleTimerReset,
       handlePomoStart,
       handlePassedPomos,
-      handleStartingTime,
+      handlePassedTime,
       themeRef,
     } = this
 
     return (
       <ThemeContextProvider ref={themeRef}>
         <MenuContextProvider>
-          <MenuContext.Consumer>
-            {(menuState) => (
-              <Page>
-                <NavBar>
-                  <NavItem icon={volumeOff} />
-                  <NavItem icon={settings} secondaryIcon={close} changeable>
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <DropDown />
-                    </Suspense>
-                  </NavItem>
-                </NavBar>
-                <Timer
-                  handleTimerState={handleTimerState}
-                  handleTimerRuns={handleTimerRuns}
-                  handleTimerEnds={handleTimerEnds}
-                  handleTimerReset={handleTimerReset}
-                  handlePomoStart={handlePomoStart}
-                  handlePassedPomos={handlePassedPomos}
-                  startingTimerTime={handleStartingTime(menuState)}
-                  timerState={timerState}
-                  timerRuns={timerRuns}
-                  timerEnds={timerEnds}
-                  pomoStart={pomoStart}
-                  passedPomos={passedPomos}
-                />
-              </Page>
-            )}
-          </MenuContext.Consumer>
+          <Page>
+            <NavBar>
+              <NavItem
+                icon={volumeOff}
+                secondaryIcon={volumeOn}
+                changeable
+                sound
+              />
+              <NavItem icon={settings} secondaryIcon={close} changeable>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DropDown />
+                </Suspense>
+              </NavItem>
+            </NavBar>
+            <Timer
+              timerState={timerState}
+              timerRuns={timerRuns}
+              timerEnds={timerEnds}
+              pomoStart={pomoStart}
+              passedPomos={passedPomos}
+              passedTime={passedTime}
+              handleTimerState={handleTimerState}
+              handleTimerRuns={handleTimerRuns}
+              handleTimerEnds={handleTimerEnds}
+              handleTimerReset={handleTimerReset}
+              handlePomoStart={handlePomoStart}
+              handlePassedPomos={handlePassedPomos}
+              handlePassedTime={handlePassedTime}
+            />
+          </Page>
         </MenuContextProvider>
       </ThemeContextProvider>
     )

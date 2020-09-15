@@ -11,10 +11,12 @@ class MenuContextProvider extends Component {
     autoStartBreak: false,
     pomoTime: 3,
     breakTime: 3,
-    longBreakTime: 600,
+    longBreakTime: 4,
     longBreakEvery: 4,
     pomoRingtone: false,
     breakRingtone: false,
+    soundOn: true,
+    focusGoal: 10,
   }
 
   handleAutoStartBreak = () => {
@@ -45,17 +47,40 @@ class MenuContextProvider extends Component {
     this.setState({ longBreakEvery: every })
   }
 
-  handleRingtone = (timerState) => {
-    console.log(timerState, 'audio sounds')
-    const breakAudio = new Audio(breakSound)
-    const longBreakAudio = new Audio(longBreakSound)
+  handlePomoRingtone = () => {
+    this.setState(({ pomoRingtone }) => ({ pomoRingtone: !pomoRingtone }))
+  }
+
+  handleBreakRingtone = () => {
+    this.setState(({ breakRingtone }) => ({ breakRingtone: !breakRingtone }))
+  }
+
+  handlePlaySound = (sound) => {
     const pomoAudio = new Audio(pomoSound)
+    const breakAudio = new Audio(breakSound)
     const endAudio = new Audio(endSound)
-    if (timerState === 'break') {
-      breakAudio.play()
-    } else if (timerState === 'pomo') {
-      pomoAudio.play()
+
+    switch (sound) {
+      case 'pomo':
+        pomoAudio.play()
+        break
+      case 'break':
+        breakAudio.play()
+        break
+      case 'end':
+        endAudio.play()
+        break
+      default:
+        break
     }
+  }
+
+  handleSoundOn = () => {
+    this.setState(({ soundOn }) => ({ soundOn: !soundOn }))
+  }
+
+  handleFocusGoal = (time) => {
+    this.setState({ focusGoal: time })
   }
 
   render() {
@@ -71,7 +96,11 @@ class MenuContextProvider extends Component {
           handleBreakTime: this.handleBreakTime,
           handleLongBreakTime: this.handleLongBreakTime,
           handleLongBreakEvery: this.handleLongBreakEvery,
-          handleRingtone: this.handleRingtone,
+          handlePomoRingtone: this.handlePomoRingtone,
+          handleBreakRingtone: this.handleBreakRingtone,
+          handlePlaySound: this.handlePlaySound,
+          handleSoundOn: this.handleSoundOn,
+          handleFocusGoal: this.handleFocusGoal,
         }}
       >
         {children}

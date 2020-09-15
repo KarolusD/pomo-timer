@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { Transition } from 'react-transition-group'
 import styles from './ToggleButton.module.css'
-import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
 
 const ToggleButton = ({ toggleState, handleToggleState }) => {
-  //const [isOn, setIsOn] = useState(toggleState)
+  const theme = useContext(ThemeContext)
 
   const transitionStyles = {
     entering: { transform: 'translateX(26px)' },
@@ -18,24 +18,20 @@ const ToggleButton = ({ toggleState, handleToggleState }) => {
   }
 
   return (
-    <ThemeContextConsumer>
-      {(theme) => (
-        <button
-          style={{ background: toggleState ? theme.main : theme.whitesmoke }}
-          className={styles.toggleButton}
-          onClick={handleClick}
-        >
-          <Transition in={toggleState} timeout={500}>
-            {(state) => (
-              <span
-                style={{ background: theme.white, ...transitionStyles[state] }}
-                className={styles.switch}
-              />
-            )}
-          </Transition>
-        </button>
-      )}
-    </ThemeContextConsumer>
+    <button
+      style={{ background: toggleState ? theme.main : theme.whitesmoke }}
+      className={styles.toggleButton}
+      onClick={handleClick}
+    >
+      <Transition in={toggleState} timeout={500}>
+        {(state) => (
+          <span
+            style={{ background: theme.white, ...transitionStyles[state] }}
+            className={styles.switch}
+          />
+        )}
+      </Transition>
+    </button>
   )
 }
 
