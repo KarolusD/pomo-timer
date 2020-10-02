@@ -6,6 +6,10 @@ import { validateNumberInput } from '../../helpers/validateNumberInput'
 
 const TimeSettings = () => {
   const menuContext = useContext(MenuContext)
+
+  const validateFormRules = { minNum: 0, maxNum: 600 }
+  const { minNum, maxNum } = validateFormRules
+
   const {
     pomoTime,
     breakTime,
@@ -33,46 +37,90 @@ const TimeSettings = () => {
     longBreakEveryInput,
   } = formData
 
-  useEffect(() => {
-    if (pomoTime !== pomoTimeInput * SEC_IN_MIN) {
-      handlePomoTime(Number(pomoTimeInput) * SEC_IN_MIN)
-    }
-    if (breakTime !== breakTimeInput * SEC_IN_MIN) {
-      handleBreakTime(Number(breakTimeInput) * SEC_IN_MIN)
-    }
-    if (longBreakTime !== longBreakTimeInput * SEC_IN_MIN) {
-      handleLongBreakTime(Number(longBreakTimeInput) * SEC_IN_MIN)
-    }
-    if (longBreakEvery !== longBreakEveryInput) {
-      handleLongBreakEvery(Number(longBreakEveryInput))
-    }
-  }, [
-    handlePomoTime,
-    handleBreakTime,
-    handleLongBreakTime,
-    handleLongBreakEvery,
-    pomoTime,
-    breakTime,
-    longBreakTime,
-    longBreakEvery,
-    pomoTimeInput,
-    breakTimeInput,
-    longBreakTimeInput,
-    longBreakEveryInput,
-  ])
+  const [formErrors, setFormErrors] = useState({
+    pomoTimeInput: false,
+    breakTimeInput: false,
+    longBreakTimeInput: false,
+    longBreakEveryInput: false,
+  })
 
-  const updateFormData = (
-    event,
-    validateRules = { minNum: 0, maxNum: 600 }
-  ) => {
+  // TODO: make a custom hook for handling form inputs because this code looks like a peace of shit
+
+  useEffect(() => {
+    if (Number(pomoTimeInput) > maxNum) {
+      handlePomoTime(maxNum * SEC_IN_MIN)
+    } else if (Number(pomoTimeInput) < minNum) {
+      handlePomoTime(minNum * SEC_IN_MIN)
+    } else if (Number(pomoTimeInput)) {
+      handlePomoTime(Number(pomoTimeInput) * SEC_IN_MIN)
+    } else {
+      handlePomoTime(SEC_IN_MIN)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pomoTimeInput])
+
+  useEffect(() => {
+    if (Number(breakTimeInput) > maxNum) {
+      handleBreakTime(maxNum * SEC_IN_MIN)
+    } else if (Number(breakTimeInput) < minNum) {
+      handleBreakTime(minNum * SEC_IN_MIN)
+    } else if (Number(breakTimeInput)) {
+      handleBreakTime(Number(breakTimeInput) * SEC_IN_MIN)
+    } else {
+      handleBreakTime(SEC_IN_MIN)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [breakTimeInput])
+
+  useEffect(() => {
+    if (Number(longBreakTimeInput) > maxNum) {
+      handleLongBreakTime(maxNum * SEC_IN_MIN)
+    } else if (Number(longBreakTimeInput) < minNum) {
+      handleLongBreakTime(minNum * SEC_IN_MIN)
+    } else if (Number(longBreakTimeInput)) {
+      handleLongBreakTime(Number(longBreakTimeInput) * SEC_IN_MIN)
+    } else {
+      handleLongBreakTime(SEC_IN_MIN)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [longBreakTimeInput])
+
+  useEffect(() => {
+    if (Number(longBreakEveryInput) > maxNum) {
+      handleLongBreakEvery(maxNum)
+    } else if (Number(longBreakEveryInput) < minNum) {
+      handleLongBreakEvery(minNum)
+    } else if (Number(longBreakEveryInput)) {
+      handleLongBreakEvery(Number(longBreakEveryInput))
+    } else {
+      handleLongBreakEvery(1)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [longBreakEveryInput])
+
+  const updateFormData = (event) => {
     event.preventDefault()
     const { value, name } = event.target
-    const { minNum, maxNum } = validateRules
 
     if (validateNumberInput(value, minNum, maxNum)) {
       setFormData({
         ...formData,
         [name]: value,
+      })
+
+      setFormErrors({
+        ...formErrors,
+        [name]: false,
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      })
+
+      setFormErrors({
+        ...formErrors,
+        [name]: true,
       })
     }
   }
@@ -86,6 +134,8 @@ const TimeSettings = () => {
         value={pomoTimeInput}
         onChange={updateFormData}
         span='min'
+        error={formErrors.pomoTimeInput}
+        errorMessage={`provide correct number in range from ${minNum} to ${maxNum}`}
       />
 
       <Input
@@ -95,6 +145,8 @@ const TimeSettings = () => {
         value={breakTimeInput}
         onChange={updateFormData}
         span='min'
+        error={formErrors.breakTimeInput}
+        errorMessage={`provide correct number in range from ${minNum} to ${maxNum}`}
       />
 
       <Input
@@ -104,6 +156,8 @@ const TimeSettings = () => {
         value={longBreakTimeInput}
         onChange={updateFormData}
         span='min'
+        error={formErrors.longBreakTimeInput}
+        errorMessage={`provide correct number in range from ${minNum} to ${maxNum}`}
       />
 
       <Input
@@ -113,6 +167,8 @@ const TimeSettings = () => {
         value={longBreakEveryInput}
         onChange={updateFormData}
         span='pomo'
+        error={formErrors.longBreakEveryInput}
+        errorMessage={`provide correct number in range from ${minNum} to ${maxNum}`}
       />
     </form>
   )

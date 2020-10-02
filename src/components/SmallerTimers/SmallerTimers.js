@@ -28,6 +28,7 @@ const SmallerTimers = ({
               currentTime={currentTime}
               fullProgress={fullProgress}
               smallTimer
+              passedPomos={passedPomos}
             />
           )
         } else if (i < passedPomos) {
@@ -52,6 +53,7 @@ const SmallerTimers = ({
               smallTimer
               fullProgress={fullProgress}
               pomosGoal={pomosGoal}
+              passedPomos={passedPomos}
               ifNumber={pomosGoal > 5 ? true : false}
               number={pomosGoal - passedPomos}
             />
@@ -63,6 +65,7 @@ const SmallerTimers = ({
               key={i}
               smallTimer
               pomosGoal={pomosGoal}
+              passedPomos={passedPomos}
               ifNumber={pomosGoal > 5 ? true : false}
               number={pomosGoal - 4}
             />

@@ -36,12 +36,21 @@ const TimerButtons = ({
           </>
         )
       } else if (!timerRuns) {
-        return (
-          <>
-            {startButton}
-            {quitButton}
-          </>
-        )
+        if (!timerEnds) {
+          return (
+            <>
+              {playButton}
+              {quitButton}
+            </>
+          )
+        } else {
+          return (
+            <>
+              {startButton}
+              {quitButton}
+            </>
+          )
+        }
       }
     }
   }

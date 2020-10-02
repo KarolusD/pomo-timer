@@ -24,6 +24,9 @@
 
 .close {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: 16px;
   right: 16px;
   width: 48px;

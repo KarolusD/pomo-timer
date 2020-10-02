@@ -71,9 +71,9 @@ const DropDownItem = ({
           )}
           {currentState && (
             <p style={{ marginLeft: 'auto', color: theme.midMain }}>
-              {currentState / 60 < 1
-                ? (currentState / 60).toFixed(2)
-                : (currentState / 60).toFixed()}{' '}
+              {currentState % 60 === 0
+                ? (currentState / 60).toFixed()
+                : (currentState / 60).toFixed(2)}{' '}
               min
             </p>
           )}

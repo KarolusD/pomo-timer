@@ -7,6 +7,19 @@
 }
 
 .focusInfo {
-  margin-top: 8px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 24px;
   font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.focusInfoText {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
 }

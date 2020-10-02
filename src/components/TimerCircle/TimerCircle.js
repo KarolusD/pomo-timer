@@ -15,6 +15,8 @@ const TimerCircle = ({
   filled,
   ifNumber,
   number,
+  pomosGoal,
+  passedPomos,
 }) => {
   const theme = useContext(ThemeContext)
 
@@ -85,7 +87,9 @@ const TimerCircle = ({
       {ifNumber
         ? smallTimer && (
             <p className={styles.number} style={{ color: theme.main }}>
-              {number >= 0 ? `x${number}` : `+ ${Math.abs(number)}`}
+              {pomosGoal - passedPomos > 0
+                ? `x${number}`
+                : `+ ${passedPomos - 4}`}
             </p>
           )
         : smallTimer && (

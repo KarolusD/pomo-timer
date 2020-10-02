@@ -1,18 +1,44 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Input.module.css'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
 
-const Input = ({ label, type, name, value, onChange, span, disabled }) => {
+const Input = ({
+  label,
+  type,
+  name,
+  value,
+  error,
+  errorMessage,
+  onChange,
+  span,
+  disabled,
+}) => {
   const [inputState, setInputState] = useState('inactive')
 
   const handleBlur = () => {
-    setInputState('inactive')
+    if (error) {
+      setInputState('error')
+    } else {
+      setInputState('inactive')
+    }
   }
 
   const handleFocus = () => {
     setInputState('focused')
   }
+
+  const handleError = () => {
+    setInputState('error')
+  }
+
+  useEffect(() => {
+    if (error) {
+      handleError()
+    } else if (inputState !== 'inactive') {
+      handleFocus()
+    }
+  }, [error, inputState])
 
   const theme = useContext(ThemeContext)
 
@@ -29,6 +55,11 @@ const Input = ({ label, type, name, value, onChange, span, disabled }) => {
         background: bg,
         border: `1px solid ${theme.main}`,
       }
+    } else if (inputState === 'error') {
+      return {
+        background: bg,
+        border: `1px solid ${theme.error}`,
+      }
     }
   }
 
@@ -37,6 +68,11 @@ const Input = ({ label, type, name, value, onChange, span, disabled }) => {
       return {
         background: theme.whitesmoke,
         color: theme.gray,
+      }
+    } else if (inputState === 'error') {
+      return {
+        background: theme.error,
+        color: theme.white,
       }
     } else {
       return {
@@ -49,6 +85,7 @@ const Input = ({ label, type, name, value, onChange, span, disabled }) => {
   return (
     <div className={styles.inputContainer}>
       <label className={styles.label}>{label}</label>
+
       <input
         type={type}
         name={name}
@@ -60,9 +97,16 @@ const Input = ({ label, type, name, value, onChange, span, disabled }) => {
         onBlur={handleBlur}
         disabled={disabled ? true : false}
       />
+
       <span style={spanStyles()} className={styles.inputValue}>
         {span}
       </span>
+
+      {error && (
+        <span style={{ color: theme.error }} className={styles.error}>
+          {errorMessage}
+        </span>
+      )}
     </div>
   )
 }
@@ -83,6 +127,8 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   span: PropTypes.string,
+  error: PropTypes.bool,
+  errorMessage: PropTypes.string,
 }
 
 export default Input

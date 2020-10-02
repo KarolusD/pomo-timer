@@ -10,6 +10,9 @@ export const themes = {
     lightGray: '#9E9999',
     whitesmoke: '#D8D8D8',
     whitesnow: '#f2f2f2',
+    info: '#1CB1E0',
+    lightInfo: 'rgba(28, 177, 224, 0.1)',
+    error: '#F61919',
   },
   break: {
     black: '#172D22',
@@ -22,5 +25,8 @@ export const themes = {
     lightGray: '#989B9A',
     whitesmoke: '#D8D8D8',
     whitesnow: '#f2f2f2',
+    info: '#1CB1E0',
+    lightInfo: 'rgba(28, 177, 224, 0.1)',
+    error: '#F61919',
   },
 }
