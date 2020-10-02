@@ -35,7 +35,6 @@ const FocusGoalSettings = () => {
   }
 
   const howManyPomosIsYourGoal = () => {
-    console.log(focusGoal, pomoTime)
     return Math.round(focusGoal / pomoTime)
   }
 
@@ -54,7 +53,9 @@ const FocusGoalSettings = () => {
         onChange={updateFormData}
         span='min'
       />
-      <p>You should do at least {howManyPomosIsYourGoal()} pomos</p>
+      <p className={styles.focusInfo}>
+        You should do at least {howManyPomosIsYourGoal()} pomos
+      </p>
     </form>
   )
 }

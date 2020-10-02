@@ -16,7 +16,7 @@ const Icon = ({ src, fill }) => (
 
 Icon.propTypes = {
   src: PropTypes.string.isRequired,
-  fill: PropTypes.string.isRequired,
+  fill: PropTypes.string,
 }
 
 export default React.memo(Icon)

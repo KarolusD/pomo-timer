@@ -10,6 +10,7 @@ import volumeOff from '../../assets/icons/volume-off.svg'
 import close from '../../assets/icons/close.svg'
 import { ThemeContextProvider } from '../ThemeContext/ThemeContext'
 import MenuContextProvider from '../MenuContext/MenuContext'
+import FinishModal from '../FinishModal/FinishModal'
 const DropDown = React.lazy(() => import('../DropDown/DropDown'))
 
 class App extends React.Component {
@@ -19,6 +20,26 @@ class App extends React.Component {
     pomoStart: false,
     passedPomos: 0,
     timerState: 'pomo',
+  }
+
+  componentDidMount() {
+    // TODO: if last passed pomo time is from yesterday set passedPomos to 0
+    // TODO: if last passed pomo time is from today set it in the app
+    if (
+      typeof Storage !== 'undefined' &&
+      localStorage.getItem('localPomodoroInfo')
+    ) {
+      const { passedPomos, lastPomoDate } = JSON.parse(
+        localStorage.getItem('localPomodoroInfo')
+      )
+      if (lastPomoDate === new Date().toLocaleDateString()) {
+        this.setState({
+          passedPomos: passedPomos,
+        })
+      }
+    } else {
+      this.setState({ passedPomos: 0 })
+    }
   }
 
   themeRef = React.createRef()
@@ -47,7 +68,6 @@ class App extends React.Component {
         timerRuns: false,
         timerEnds: false,
         pomoStart: false,
-        passedPomos: 0,
       },
       () => this.themeRef.current.handleThemeChange(this.state.timerState)
     )
@@ -58,7 +78,28 @@ class App extends React.Component {
   }
 
   handlePassedPomos = () => {
-    this.setState(({ passedPomos }) => ({ passedPomos: passedPomos + 1 }))
+    // TODO: set last passed pomo time to localStorage
+    // TODO: set number of passed pomos to localStorage
+    this.setState(
+      ({ passedPomos }) => ({ passedPomos: passedPomos + 1 }),
+      () => this.settingLocalStorage()
+    )
+  }
+
+  settingLocalStorage = () => {
+    const localPomodoroInfo = {
+      passedPomos: this.state.passedPomos,
+      lastPomoDate: new Date().toLocaleDateString(),
+    }
+
+    if (typeof Storage !== 'undefined') {
+      localStorage.setItem(
+        'localPomodoroInfo',
+        JSON.stringify(localPomodoroInfo)
+      )
+    } else {
+      console.info('Local storage not support by this browser')
+    }
   }
 
   render() {
@@ -115,6 +156,7 @@ class App extends React.Component {
               handlePassedTime={handlePassedTime}
             />
           </Page>
+          <FinishModal />
         </MenuContextProvider>
       </ThemeContextProvider>
     )

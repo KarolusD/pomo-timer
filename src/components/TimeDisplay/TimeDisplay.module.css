@@ -9,4 +9,5 @@
   height: 204px;
   width: 204px;
   top: 0;
+  transition: color 800ms ease;
 }

@@ -5,6 +5,8 @@ import TimerButtons from '../TimerButtons/TimerButtons'
 import TimerCircle from '../TimerCircle/TimerCircle'
 import PomoInfo from '../PomoInfo/PomoInfo'
 import PropTypes from 'prop-types'
+import FinishModal from '../FinishModal/FinishModal'
+import SmallerTimers from '../SmallerTimers/SmallerTimers'
 
 const Timer = ({
   timerState,
@@ -12,14 +14,12 @@ const Timer = ({
   timerEnds,
   pomoStart,
   passedPomos,
-  passedTime,
   handleTimerState,
   handleTimerReset,
   handleTimerRuns,
   handleTimerEnds,
   handlePomoStart,
   handlePassedPomos,
-  handlePassedTime,
 }) => {
   const menuContext = useContext(MenuContext)
   const {
@@ -39,7 +39,10 @@ const Timer = ({
   const [startingTimerTime, setStartingTimerTime] = useState(pomoTime)
   const [currentTime, setCurrentTime] = useState(startingTimerTime)
   const [fullRunTime, setFullRunTime] = useState(0)
-  const [timerRef, setTimerRef] = useState(null)
+  const [fullProgress, setFullProgress] = useState(0)
+  // const [timerRef, setTimerRef] = useState(null)
+  // const [smallTimerRef, setSmallTimerRef] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const rAF = useRef()
 
@@ -62,13 +65,16 @@ const Timer = ({
   useEffect(() => {
     // Handling sounds effects
     if (timerEnds && soundOn) {
-      if (
-        timerState === 'break' &&
-        Math.round(focusGoal / pomoTime) === passedPomos
-      ) {
+      if (Math.round(focusGoal / pomoTime) === passedPomos) {
         handlePlaySound('end')
       } else if (timerState === 'pomo' && pomoRingtone) {
         handlePlaySound('pomo')
+      } else if (
+        timerState === 'break' &&
+        longBreakEvery / passedPomos === 1 &&
+        breakRingtone
+      ) {
+        handlePlaySound('long break')
       } else if (timerState === 'break' && breakRingtone) {
         handlePlaySound('break')
       }
@@ -113,7 +119,8 @@ const Timer = ({
   useEffect(() => {
     // Handling focus goal end
     if (Math.round(focusGoal / pomoTime) === passedPomos) {
-      handlePomoStart()
+      handleTimerReset()
+      setModalOpen(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passedPomos])
@@ -123,8 +130,7 @@ const Timer = ({
     let runTime = currentRunTime + startRunTime
     let progress = runTime / duration
 
-    handleTimerAnimation({ progress })
-
+    setFullProgress(progress)
     setFullRunTime(runTime)
     setCurrentTime(startingTimerTime - runTime)
 
@@ -152,18 +158,6 @@ const Timer = ({
     })
   }
 
-  const handleTimerAnimation = ({ progress }) => {
-    const radius = timerRef.current.r.baseVal.value
-    const perimeter = Math.ceil(2 * Math.PI * radius)
-
-    if (progress >= 1) {
-      timerRef.current.style.strokeDashoffset = perimeter
-    } else {
-      let arc = (perimeter * (1 - progress)).toFixed(3)
-      timerRef.current.style.strokeDashoffset = arc
-    }
-  }
-
   const handleTimerStopOrPlay = () => {
     if (timerRuns) {
       handleTimerRuns(false)
@@ -175,7 +169,7 @@ const Timer = ({
 
   const handleTimerQuit = () => {
     cancelAnimationFrame(rAF.current)
-    handleTimerAnimation({ progress: 1 })
+    setFullProgress(0)
     handleTimerReset()
     setStartingTimerTime(pomoTime)
     setCurrentTime(pomoTime)
@@ -193,16 +187,20 @@ const Timer = ({
     setCurrentTime(time)
   }
 
-  const setTimerCircleRef = (timerCircle) => {
-    setTimerRef(timerCircle)
-  }
-
   return (
     <div className={styles.timerContainer}>
-      <PomoInfo passedPomos={passedPomos} />
-      <TimerCircle
-        setTimerCircleRef={setTimerCircleRef}
+      <PomoInfo setModalOpen={setModalOpen} passedPomos={passedPomos} />
+      <SmallerTimers
         currentTime={currentTime}
+        pomosGoal={Math.round(focusGoal / pomoTime)}
+        fullProgress={fullProgress}
+        passedPomos={passedPomos}
+        timerState={timerState}
+      />
+      <TimerCircle
+        currentTime={currentTime}
+        fullProgress={fullProgress}
+        isTimeDisplay
       />
       <TimerButtons
         timerState={timerState}
@@ -212,6 +210,12 @@ const Timer = ({
         handleTimer={handleTimer}
         handleTimerStopOrPlay={handleTimerStopOrPlay}
         handleTimerQuit={handleTimerQuit}
+      />
+
+      <FinishModal
+        passedPomos={passedPomos}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
       />
     </div>
   )

@@ -3,7 +3,7 @@ import { MenuContext } from '../MenuContext/MenuContext'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
 import styles from './PomoInfo.module.css'
 
-const PomoInfo = ({ passedPomos }) => {
+const PomoInfo = ({ passedPomos, setModalOpen }) => {
   const theme = useContext(ThemeContext)
   const menuContext = useContext(MenuContext)
   const { focusGoal, pomoTime } = menuContext
@@ -13,18 +13,35 @@ const PomoInfo = ({ passedPomos }) => {
   )
 
   useEffect(() => {
-    console.log('hej how you doin')
     const goalInPomos = Math.round(focusGoal / pomoTime)
     setFocusGoalInPomos(goalInPomos)
   }, [focusGoal, pomoTime])
 
-  return (
-    <p className={styles.info} style={{ color: theme.midMain }}>
-      Today goal: {focusGoalInPomos} pomos · {focusGoalInPomos - passedPomos}{' '}
-      left
-      {}
-    </p>
-  )
+  const handleDisplay = () => {
+    if (focusGoalInPomos - passedPomos >= 0) {
+      return (
+        <p className={styles.info} style={{ color: theme.gray }}>
+          Today goal: {focusGoalInPomos} pomos{' '}
+          {passedPomos > 0 && `· ${passedPomos} already done`}
+        </p>
+      )
+    } else {
+      return (
+        <p className={styles.info} style={{ color: theme.gray }}>
+          Today goal: {focusGoalInPomos} pomos
+          <button
+            onClick={() => setModalOpen(true)}
+            className={styles.more}
+            style={{ background: theme.white, color: theme.main }}
+          >
+            + {Math.abs(focusGoalInPomos - passedPomos)} more
+          </button>
+        </p>
+      )
+    }
+  }
+
+  return handleDisplay()
 }
 
 export default PomoInfo

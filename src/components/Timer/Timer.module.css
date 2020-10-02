@@ -7,56 +7,6 @@
   justify-content: center;
   flex-direction: column;
   height: 100%;
-  width: auto;
-}
-
-.timer {
-  position: relative;
-  width: 204px;
-  height: 204px;
-  border-radius: 50%;
-  margin-bottom: 100px;
-}
-
-.timerRing {
-  stroke-width: 4px;
-}
-
-.timerSegment {
-  transform: rotate(-90deg);
-  transform-origin: 50%;
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-dashoffset: 120px;
-  stroke-dasharray: 120px;
-}
-
-.timerFg {
-  width: 162px;
-  height: 162px;
-  border-radius: 50%;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-81px, -81px);
-}
-
-.time {
-  position: absolute;
-  font-size: 38px;
-  font-weight: 700;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 204px;
-  width: 204px;
-  top: 0;
-}
-
-.btnContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  min-height: 200px;
+  width: 100vw;
+  padding-top: 10vh;
 }

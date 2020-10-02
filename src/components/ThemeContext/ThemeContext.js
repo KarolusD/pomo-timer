@@ -9,7 +9,6 @@ class ThemeContextProvider extends Component {
   }
 
   handleThemeChange = (timerState) => {
-    console.log(timerState)
     this.setState({
       theme: timerState === 'pomo' ? themes.pomo : themes.break,
     })

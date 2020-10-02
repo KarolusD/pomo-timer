@@ -1,6 +1,17 @@
 .info {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   margin: 16px;
   transition: color 200ms ease;
+}
+
+.more {
+  padding: 4px 8px;
+  border-radius: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  font-weight: 500;
 }
