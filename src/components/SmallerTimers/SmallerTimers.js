@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TimerCircle from '../TimerCircle/TimerCircle'
 import styles from './SmallerTimers.module.css'
 

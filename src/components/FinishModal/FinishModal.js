@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
-import { MenuContext } from '../MenuContext/MenuContext'
 import Button from '../Button/Button'
 import Icon from '../Icon/Icon'
 import close from '../../assets/icons/close.svg'
