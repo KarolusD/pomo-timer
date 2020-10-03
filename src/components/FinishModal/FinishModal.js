@@ -9,7 +9,7 @@ import styles from './FinishModal.module.css'
 const FinishModal = ({ passedPomos, modalOpen, setModalOpen }) => {
   // TODO: Add button for sharing results
   // TODO: Generate sharing link with social media preview
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   return modalOpen ? (
     <div className={styles.container}>

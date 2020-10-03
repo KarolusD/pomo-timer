@@ -1,25 +1,18 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { themes } from '../../theme/theme'
-const ThemeContext = React.createContext(themes.pomo)
-const { Provider, Consumer } = ThemeContext
 
-class ThemeContextProvider extends Component {
-  state = {
-    theme: themes.pomo,
+export const ThemeContext = React.createContext()
+
+const ThemeContextProvider = ({ children }) => {
+  const [theme, setTheme] = useState(themes.pomo)
+
+  const handleThemeChange = (timerState) => {
+    setTheme(timerState === 'pomo' ? themes.pomo : themes.break)
   }
 
-  handleThemeChange = (timerState) => {
-    this.setState({
-      theme: timerState === 'pomo' ? themes.pomo : themes.break,
-    })
-  }
+  const { Provider } = ThemeContext
 
-  render() {
-    const { theme } = this.state
-    const { children } = this.props
-
-    return <Provider value={theme}>{children}</Provider>
-  }
+  return <Provider value={{ theme, handleThemeChange }}>{children}</Provider>
 }
 
-export { ThemeContextProvider, Consumer as ThemeContextConsumer, ThemeContext }
+export default ThemeContextProvider

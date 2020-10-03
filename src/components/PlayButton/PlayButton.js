@@ -2,13 +2,13 @@ import React from 'react'
 import Icon from '../Icon/Icon'
 import playIcon from '../../assets/icons/play.svg'
 import stopIcon from '../../assets/icons/stop.svg'
-import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
 import styles from './PlayButton.module.css'
 
 const PlayButton = ({ timerRuns, handleClick }) => {
   return (
-    <ThemeContextConsumer>
-      {(theme) => (
+    <ThemeContext.Consumer>
+      {({ theme }) => (
         <button
           style={{ color: theme.main }}
           className={styles.playButton}
@@ -18,7 +18,7 @@ const PlayButton = ({ timerRuns, handleClick }) => {
           <label>{timerRuns ? 'pause timer' : 'continue'}</label>
         </button>
       )}
-    </ThemeContextConsumer>
+    </ThemeContext.Consumer>
   )
 }
 

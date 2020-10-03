@@ -16,7 +16,7 @@ const DropDownItem = ({
   handleToggleState,
   currentState,
 }) => {
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const handleClick = (event) => {
     event.preventDefault()

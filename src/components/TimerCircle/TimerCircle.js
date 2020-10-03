@@ -18,7 +18,7 @@ const TimerCircle = ({
   pomosGoal,
   passedPomos,
 }) => {
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const timerCircleRef = useRef()
 

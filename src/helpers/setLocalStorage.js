@@ -1,7 +1,7 @@
 /**
- * Add an item to a localStorage() object
+ * Add an item to a localStorage() object or add whole object to localStorage()
  * @param {String} name  The localStorage() key
- * @param {String} key   The localStorage() value object key
+ * @param {?String} key   The localStorage() value object key
  * @param {String} value The localStorage() value object value
  */
 const setLocalStorageObj = (name, key, value) => {
@@ -14,11 +14,7 @@ const setLocalStorageObj = (name, key, value) => {
     data = data ? JSON.parse(data) : {}
 
     // Add new data to localStorage Array
-    if (key) {
-      data[key] = value
-    } else {
-      data = value
-    }
+    key ? (data[key] = value) : (data = value)
 
     // Save back to localStorage
     localStorage.setItem(name, JSON.stringify(data))

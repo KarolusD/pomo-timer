@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from './Button.module.css'
-import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
 
 const Button = ({ label, primary, handleClick, ...props }) => {
   return (
-    <ThemeContextConsumer>
-      {(theme) => {
+    <ThemeContext.Consumer>
+      {({ theme }) => {
         if (primary) {
           return (
             <button
@@ -35,7 +35,7 @@ const Button = ({ label, primary, handleClick, ...props }) => {
           )
         }
       }}
-    </ThemeContextConsumer>
+    </ThemeContext.Consumer>
   )
 }
 

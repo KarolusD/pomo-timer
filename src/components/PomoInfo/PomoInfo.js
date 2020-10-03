@@ -4,7 +4,7 @@ import { ThemeContext } from '../ThemeContext/ThemeContext'
 import styles from './PomoInfo.module.css'
 
 const PomoInfo = ({ passedPomos, setModalOpen }) => {
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
   const menuContext = useContext(MenuContext)
   const { focusGoal, pomoTime } = menuContext
 

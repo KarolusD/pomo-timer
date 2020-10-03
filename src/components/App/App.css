@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+
 @font-face {
   font-family: 'Poppins', sans-serif;
-  src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+  src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 }
 
 * {

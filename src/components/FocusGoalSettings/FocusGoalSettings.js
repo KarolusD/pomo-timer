@@ -8,10 +8,9 @@ import { validateNumberInput } from '../../helpers/validateNumberInput'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
 
 const FocusGoalSettings = () => {
-  const menuContext = useContext(MenuContext)
-  const theme = useContext(ThemeContext)
+  const { focusGoal, handleFocusGoal, pomoTime } = useContext(MenuContext)
+  const { theme } = useContext(ThemeContext)
 
-  const { focusGoal, handleFocusGoal, pomoTime } = menuContext
   const SEC_IN_MIN = 60
   const validateFormRules = { minNum: 0, maxNum: 600 }
   const { minNum, maxNum } = validateFormRules
@@ -19,6 +18,10 @@ const FocusGoalSettings = () => {
   const [formData, setFormData] = useState({
     focusGoalInput: (focusGoal / SEC_IN_MIN).toString(),
   })
+
+  // TODO: custom hook!
+  // useState with formData and formErrors
+  // useEffect with handling external state in menu context
 
   const [formErrors, setFormErrors] = useState({
     focusGoalInput: false,
@@ -72,6 +75,7 @@ const FocusGoalSettings = () => {
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
       }}

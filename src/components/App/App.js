@@ -1,4 +1,10 @@
-import React, { Suspense } from 'react'
+import React, {
+  Suspense,
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+} from 'react'
 import './App.css'
 import Page from '../Page/Page'
 import Timer from '../Timer/Timer'
@@ -8,23 +14,23 @@ import settings from '../../assets/icons/settings.svg'
 import volumeOn from '../../assets/icons/volume-on.svg'
 import volumeOff from '../../assets/icons/volume-off.svg'
 import close from '../../assets/icons/close.svg'
-import { ThemeContextProvider } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
 import MenuContextProvider from '../MenuContext/MenuContext'
 import FinishModal from '../FinishModal/FinishModal'
+import Loader from '../Loader/Loader'
+
 const DropDown = React.lazy(() => import('../DropDown/DropDown'))
 
-class App extends React.Component {
-  state = {
-    timerRuns: false,
-    timerEnds: false,
-    pomoStart: false,
-    passedPomos: 0,
-    timerState: 'pomo',
-  }
+const App = () => {
+  const [timerRuns, setTimerRuns] = useState(false)
+  const [timerEnds, setTimerEnds] = useState(false)
+  const [pomoStart, setPomoStart] = useState(false)
+  const [passedPomos, setPassedPomos] = useState(0)
+  const [timerState, setTimerState] = useState('pomo')
 
-  componentDidMount() {
-    // TODO: if last passed pomo time is from yesterday set passedPomos to 0
-    // TODO: if last passed pomo time is from today set it in the app
+  const { handleThemeChange } = useContext(ThemeContext)
+
+  useEffect(() => {
     if (
       typeof Storage !== 'undefined' &&
       localStorage.getItem('localPomodoroInfo')
@@ -33,62 +39,49 @@ class App extends React.Component {
         localStorage.getItem('localPomodoroInfo')
       )
       if (lastPomoDate === new Date().toLocaleDateString()) {
-        this.setState({
-          passedPomos: passedPomos,
-        })
+        setPassedPomos(passedPomos)
       }
     } else {
-      this.setState({ passedPomos: 0 })
+      setPassedPomos(0)
     }
-  }
+  }, [])
 
-  themeRef = React.createRef()
-
-  handleTimerState = () => {
-    this.setState(
-      (prevState) => ({
-        timerState: prevState.timerState === 'pomo' ? 'break' : 'pomo',
-      }),
-      () => this.themeRef.current.handleThemeChange(this.state.timerState)
+  const handleTimerState = () => {
+    setTimerState(({ timerState }) =>
+      timerState === 'pomo' ? 'break' : 'pomo'
     )
   }
 
-  handleTimerRuns = (run) => {
-    this.setState({ timerRuns: run })
+  useEffect(() => {
+    handleThemeChange(timerState)
+  }, [handleThemeChange, timerState])
+
+  const handleTimerRuns = (run) => {
+    setTimerRuns(run)
   }
 
-  handleTimerEnds = (ends) => {
-    this.setState({ timerEnds: ends })
+  const handleTimerEnds = (ends) => {
+    setTimerEnds(ends)
   }
 
-  handleTimerReset = () => {
-    this.setState(
-      {
-        timerState: 'pomo',
-        timerRuns: false,
-        timerEnds: false,
-        pomoStart: false,
-      },
-      () => this.themeRef.current.handleThemeChange(this.state.timerState)
-    )
+  const handleTimerReset = () => {
+    setTimerState('pomo')
+    setTimerRuns(false)
+    setTimerEnds(false)
+    setPomoStart(false)
   }
 
-  handlePomoStart = () => {
-    this.setState(({ pomoStart }) => ({ pomoStart: !pomoStart }))
+  const handlePomoStart = () => {
+    setPomoStart(!pomoStart)
   }
 
-  handlePassedPomos = () => {
-    // TODO: set last passed pomo time to localStorage
-    // TODO: set number of passed pomos to localStorage
-    this.setState(
-      ({ passedPomos }) => ({ passedPomos: passedPomos + 1 }),
-      () => this.settingLocalStorage()
-    )
+  const handlePassedPomos = () => {
+    setPassedPomos((passedPomos) => passedPomos + 1)
   }
 
-  settingLocalStorage = () => {
+  const settingLocalStorage = useCallback(() => {
     const localPomodoroInfo = {
-      passedPomos: this.state.passedPomos,
+      passedPomos: passedPomos,
       lastPomoDate: new Date().toLocaleDateString(),
     }
 
@@ -100,67 +93,40 @@ class App extends React.Component {
     } else {
       console.info('Local storage not support by this browser')
     }
-  }
+  }, [passedPomos])
 
-  render() {
-    const {
-      timerState,
-      timerRuns,
-      pomoStart,
-      timerEnds,
-      passedPomos,
-      passedTime,
-    } = this.state
+  useEffect(() => {
+    settingLocalStorage()
+  }, [passedPomos, settingLocalStorage])
 
-    const {
-      handleTimerState,
-      handleTimerRuns,
-      handleTimerEnds,
-      handleTimerReset,
-      handlePomoStart,
-      handlePassedPomos,
-      handlePassedTime,
-      themeRef,
-    } = this
-
-    return (
-      <ThemeContextProvider ref={themeRef}>
-        <MenuContextProvider>
-          <Page>
-            <NavBar>
-              <NavItem
-                icon={volumeOff}
-                secondaryIcon={volumeOn}
-                changeable
-                sound
-              />
-              <NavItem icon={settings} secondaryIcon={close} changeable>
-                <Suspense fallback={<div>Loading...</div>}>
-                  <DropDown />
-                </Suspense>
-              </NavItem>
-            </NavBar>
-            <Timer
-              timerState={timerState}
-              timerRuns={timerRuns}
-              timerEnds={timerEnds}
-              pomoStart={pomoStart}
-              passedPomos={passedPomos}
-              passedTime={passedTime}
-              handleTimerState={handleTimerState}
-              handleTimerRuns={handleTimerRuns}
-              handleTimerEnds={handleTimerEnds}
-              handleTimerReset={handleTimerReset}
-              handlePomoStart={handlePomoStart}
-              handlePassedPomos={handlePassedPomos}
-              handlePassedTime={handlePassedTime}
-            />
-          </Page>
-          <FinishModal />
-        </MenuContextProvider>
-      </ThemeContextProvider>
-    )
-  }
+  return (
+    <MenuContextProvider>
+      <Page>
+        <NavBar>
+          <NavItem icon={volumeOff} secondaryIcon={volumeOn} changeable sound />
+          <NavItem icon={settings} secondaryIcon={close} changeable>
+            <Suspense fallback={<Loader />}>
+              <DropDown />
+            </Suspense>
+          </NavItem>
+        </NavBar>
+        <Timer
+          timerState={timerState}
+          timerRuns={timerRuns}
+          timerEnds={timerEnds}
+          pomoStart={pomoStart}
+          passedPomos={passedPomos}
+          handleTimerState={handleTimerState}
+          handleTimerRuns={handleTimerRuns}
+          handleTimerEnds={handleTimerEnds}
+          handleTimerReset={handleTimerReset}
+          handlePomoStart={handlePomoStart}
+          handlePassedPomos={handlePassedPomos}
+        />
+      </Page>
+      <FinishModal />
+    </MenuContextProvider>
+  )
 }
 
 export default App

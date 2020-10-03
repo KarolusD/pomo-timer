@@ -126,7 +126,7 @@ const TimeSettings = () => {
   }
 
   return (
-    <form className={styles.container}>
+    <form noValidate className={styles.container}>
       <Input
         label='Pomo time'
         type='number'

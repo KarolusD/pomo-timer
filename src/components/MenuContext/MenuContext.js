@@ -1,131 +1,74 @@
-import React, { Component } from 'react'
-import setLocalStorageObj from '../../helpers/setLocalStorage'
+import React from 'react'
 import breakSound from '../../assets/sounds/break-sound.mp3'
 import longBreakSound from '../../assets/sounds/long-break-sound.mp3'
 import pomoSound from '../../assets/sounds/pomo-sound.mp3'
 import endSound from '../../assets/sounds/end-sound.mp3'
+import useLocalStorageInput from '../../hooks/useLocalStorageInput'
+import useLocalStorageToggle from '../../hooks/useLocalStorageToggle'
 export const MenuContext = React.createContext()
 
-class MenuContextProvider extends Component {
-  state = {
-    autoStartPomo: false,
-    autoStartBreak: false,
-    pomoTime: 1500,
-    breakTime: 300,
-    longBreakTime: 900,
-    longBreakEvery: 4,
-    pomoRingtone: true,
-    breakRingtone: true,
-    soundOn: true,
-    focusGoal: 6000,
-  }
+const MenuContextProvider = ({ children }) => {
+  const [autoStartPomo, handleAutoStartPomo] = useLocalStorageToggle(
+    false,
+    'localPomodoroSettings',
+    'autoStartPomo'
+  )
 
-  componentDidMount() {
-    if (!localStorage.getItem('localPomodoroSettings')) {
-      setLocalStorageObj('localPomodoroSettings', null, this.state)
-    } else {
-      const localStorageData = JSON.parse(
-        localStorage.getItem('localPomodoroSettings')
-      )
-      this.setState({
-        ...localStorageData,
-      })
-    }
-  }
+  const [autoStartBreak, handleAutoStartBreak] = useLocalStorageToggle(
+    false,
+    'localPomodoroSettings',
+    'autoStartBreak'
+  )
 
-  handleAutoStartBreak = () => {
-    this.setState(
-      ({ autoStartBreak }) => ({
-        autoStartBreak: !autoStartBreak,
-      }),
-      () =>
-        setLocalStorageObj(
-          'localPomodoroSettings',
-          'autoStartBreak',
-          this.state.autoStartBreak
-        )
-    )
-  }
+  const [pomoTime, handlePomoTime] = useLocalStorageInput(
+    1500,
+    'localPomodoroSettings',
+    'pomoTime'
+  )
 
-  handleAutoStartPomo = () => {
-    this.setState(
-      ({ autoStartPomo }) => ({
-        autoStartPomo: !autoStartPomo,
-      }),
-      () =>
-        setLocalStorageObj(
-          'localPomodoroSettings',
-          'autoStartPomo',
-          this.state.autoStartPomo
-        )
-    )
-  }
+  const [breakTime, handleBreakTime] = useLocalStorageInput(
+    300,
+    'localPomodoroSettings',
+    'breakTime'
+  )
 
-  handlePomoTime = (time) => {
-    this.setState({ pomoTime: time }, () =>
-      setLocalStorageObj(
-        'localPomodoroSettings',
-        'pomoTime',
-        this.state.pomoTime
-      )
-    )
-  }
+  const [longBreakTime, handleLongBreakTime] = useLocalStorageInput(
+    900,
+    'localPomodoroSettings',
+    'longBreakTime'
+  )
 
-  handleBreakTime = (time) => {
-    this.setState({ breakTime: time }, () =>
-      setLocalStorageObj(
-        'localPomodoroSettings',
-        'breakTime',
-        this.state.breakTime
-      )
-    )
-  }
+  const [longBreakEvery, handleLongBreakEvery] = useLocalStorageInput(
+    4,
+    'localPomodoroSettings',
+    'longBreakEvery'
+  )
 
-  handleLongBreakTime = (time) => {
-    this.setState({ longBreakTime: time }, () =>
-      setLocalStorageObj(
-        'localPomodoroSettings',
-        'longBreakTime',
-        this.state.longBreakTime
-      )
-    )
-  }
+  const [pomoRingtone, handlePomoRingtone] = useLocalStorageToggle(
+    true,
+    'localPomodoroSettings',
+    'pomoRingtone'
+  )
 
-  handleLongBreakEvery = (every) => {
-    this.setState({ longBreakEvery: every }, () =>
-      setLocalStorageObj(
-        'localPomodoroSettings',
-        'longBreakEvery',
-        this.state.longBreakEvery
-      )
-    )
-  }
+  const [breakRingtone, handleBreakRingtone] = useLocalStorageToggle(
+    true,
+    'localPomodoroSettings',
+    'breakRingtone'
+  )
 
-  handlePomoRingtone = () => {
-    this.setState(
-      ({ pomoRingtone }) => ({ pomoRingtone: !pomoRingtone }),
-      () =>
-        setLocalStorageObj(
-          'localPomodoroSettings',
-          'pomoRingtone',
-          this.state.pomoRingtone
-        )
-    )
-  }
+  const [soundOn, handleSoundOn] = useLocalStorageToggle(
+    true,
+    'localPomodoroSettings',
+    'soundOn'
+  )
 
-  handleBreakRingtone = () => {
-    this.setState(
-      ({ breakRingtone }) => ({ breakRingtone: !breakRingtone }),
-      () =>
-        setLocalStorageObj(
-          'localPomodoroSettings',
-          'breakRingtone',
-          this.state.breakRingtone
-        )
-    )
-  }
+  const [focusGoal, handleFocusGoal] = useLocalStorageInput(
+    6000,
+    'localPomodoroSettings',
+    'focusGoal'
+  )
 
-  handlePlaySound = (sound) => {
+  const handlePlaySound = (sound) => {
     const pomoAudio = new Audio(pomoSound)
     const breakAudio = new Audio(breakSound)
     const longBreakAudio = new Audio(longBreakSound)
@@ -149,52 +92,37 @@ class MenuContextProvider extends Component {
     }
   }
 
-  handleSoundOn = () => {
-    this.setState(
-      ({ soundOn }) => ({ soundOn: !soundOn }),
-      () =>
-        setLocalStorageObj(
-          'localPomodoroSettings',
-          'soundOn',
-          this.state.soundOn
-        )
-    )
-  }
+  const { Provider } = MenuContext
 
-  handleFocusGoal = (time) => {
-    this.setState({ focusGoal: time }, () =>
-      setLocalStorageObj(
-        'localPomodoroSettings',
-        'focusGoal',
-        this.state.focusGoal
-      )
-    )
-  }
-
-  render() {
-    const { Provider } = MenuContext
-    const { children } = this.props
-    return (
-      <Provider
-        value={{
-          ...this.state,
-          handleAutoStartBreak: this.handleAutoStartBreak,
-          handleAutoStartPomo: this.handleAutoStartPomo,
-          handlePomoTime: this.handlePomoTime,
-          handleBreakTime: this.handleBreakTime,
-          handleLongBreakTime: this.handleLongBreakTime,
-          handleLongBreakEvery: this.handleLongBreakEvery,
-          handlePomoRingtone: this.handlePomoRingtone,
-          handleBreakRingtone: this.handleBreakRingtone,
-          handlePlaySound: this.handlePlaySound,
-          handleSoundOn: this.handleSoundOn,
-          handleFocusGoal: this.handleFocusGoal,
-        }}
-      >
-        {children}
-      </Provider>
-    )
-  }
+  return (
+    <Provider
+      value={{
+        autoStartPomo,
+        autoStartBreak,
+        pomoTime,
+        breakTime,
+        longBreakTime,
+        longBreakEvery,
+        pomoRingtone,
+        breakRingtone,
+        soundOn,
+        focusGoal,
+        handleAutoStartBreak,
+        handleAutoStartPomo,
+        handlePomoTime,
+        handleBreakTime,
+        handleLongBreakTime,
+        handleLongBreakEvery,
+        handlePomoRingtone,
+        handleBreakRingtone,
+        handlePlaySound,
+        handleSoundOn,
+        handleFocusGoal,
+      }}
+    >
+      {children}
+    </Provider>
+  )
 }
 
 export default MenuContextProvider

@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './Page.module.css'
-import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
 
 const Page = (props) => {
   const { children } = props
   return (
-    <ThemeContextConsumer>
-      {(theme) => (
+    <ThemeContext.Consumer>
+      {({ theme }) => (
         <section
           className={styles.page}
           style={{ background: theme.background }}
@@ -14,7 +14,7 @@ const Page = (props) => {
           {children}
         </section>
       )}
-    </ThemeContextConsumer>
+    </ThemeContext.Consumer>
   )
 }
 

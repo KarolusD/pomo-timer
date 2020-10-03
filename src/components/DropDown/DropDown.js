@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import styles from './DropDown.module.css'
 import arrowBack from '../../assets/icons/arrow-back.svg'
-import { ThemeContextConsumer } from '../ThemeContext/ThemeContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext'
 import { CSSTransition } from 'react-transition-group'
 import DropDownItem from '../DropDownItem/DropDownItem'
 import timer from '../../assets/icons/timer.svg'
@@ -14,7 +14,6 @@ const DropDown = () => {
   const [activeMenu, setActiveMenu] = useState('main')
   const [menuHeight, setMenuHeight] = useState(null)
 
-  const menuContext = useContext(MenuContext)
   const {
     autoStartPomo,
     autoStartBreak,
@@ -26,7 +25,7 @@ const DropDown = () => {
     handleBreakRingtone,
     handleAutoStartPomo,
     handleAutoStartBreak,
-  } = menuContext
+  } = useContext(MenuContext)
 
   const calcHeight = (el) => {
     const height = el.offsetHeight + 16 // heigh + extra bottom-padding
@@ -34,8 +33,8 @@ const DropDown = () => {
   }
 
   return (
-    <ThemeContextConsumer>
-      {(theme) => (
+    <ThemeContext.Consumer>
+      {({ theme }) => (
         <div
           className={styles.dropDown}
           style={{
@@ -142,7 +141,7 @@ const DropDown = () => {
           </CSSTransition>
         </div>
       )}
-    </ThemeContextConsumer>
+    </ThemeContext.Consumer>
   )
 }
 

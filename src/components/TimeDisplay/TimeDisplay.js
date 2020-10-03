@@ -3,7 +3,7 @@ import { ThemeContext } from '../ThemeContext/ThemeContext'
 import styles from './TimeDisplay.module.css'
 
 const TimeDisplay = ({ currentTime }) => {
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const handleTimeDisplay = (currTime) => {
     const hour = Math.floor(currTime / 3600)

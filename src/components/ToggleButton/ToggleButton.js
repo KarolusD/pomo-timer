@@ -4,7 +4,7 @@ import styles from './ToggleButton.module.css'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
 
 const ToggleButton = ({ toggleState, handleToggleState }) => {
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const transitionStyles = {
     entering: { transform: 'translateX(26px)' },

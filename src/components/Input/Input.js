@@ -40,7 +40,7 @@ const Input = ({
     }
   }, [error, inputState])
 
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const inputStyles = () => {
     const bg = theme.whitesnow

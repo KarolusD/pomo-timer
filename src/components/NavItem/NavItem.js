@@ -7,7 +7,7 @@ import styles from './NavItem.module.css'
 const NavItem = ({ icon, secondaryIcon, changeable, sound, children }) => {
   const [open, setOpen] = useState(false)
 
-  const theme = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
   const { soundOn, handleSoundOn } = useContext(MenuContext)
 
   const handleClick = (event) => {
