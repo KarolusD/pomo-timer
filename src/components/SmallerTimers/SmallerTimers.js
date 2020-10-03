@@ -80,4 +80,4 @@ const SmallerTimers = ({
   return <div className={styles.container}>{handleDisplay()}</div>
 }
 
-export default SmallerTimers
+export default React.memo(SmallerTimers)
