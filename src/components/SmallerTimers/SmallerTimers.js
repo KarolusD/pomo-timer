@@ -13,7 +13,6 @@ const SmallerTimers = ({
   const handleDisplay = () => {
     let timers = []
 
-    console.log(passedPomos)
     for (let i = 0; i < pomosGoal; i++) {
       if (i < 4) {
         if (
@@ -44,7 +43,6 @@ const SmallerTimers = ({
           (timerState === 'pomo' && passedPomos >= 4) ||
           (timerState === 'break' && passedPomos >= 5)
         ) {
-          console.log('siema, biegam')
           timers.push(
             <TimerCircle
               key={i}
@@ -59,7 +57,6 @@ const SmallerTimers = ({
             />
           )
         } else {
-          console.log('siema, nie biegam')
           timers.push(
             <TimerCircle
               key={i}
