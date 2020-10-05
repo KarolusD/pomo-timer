@@ -17,9 +17,7 @@ import close from '../../assets/icons/close.svg'
 import { ThemeContext } from '../ThemeContext/ThemeContext'
 import MenuContextProvider from '../MenuContext/MenuContext'
 import FinishModal from '../FinishModal/FinishModal'
-import Loader from '../Loader/Loader'
-
-const DropDown = React.lazy(() => import('../DropDown/DropDown'))
+import DropDown from '../DropDown/DropDown'
 
 const App = () => {
   const [timerRuns, setTimerRuns] = useState(false)
@@ -105,9 +103,7 @@ const App = () => {
         <NavBar>
           <NavItem icon={volumeOff} secondaryIcon={volumeOn} changeable sound />
           <NavItem icon={settings} secondaryIcon={close} changeable>
-            <Suspense fallback={<Loader />}>
-              <DropDown />
-            </Suspense>
+            <DropDown />
           </NavItem>
         </NavBar>
         <Timer
