@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-} from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import './App.css'
 import Page from '../Page/Page'
 import Timer from '../Timer/Timer'
