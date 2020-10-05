@@ -46,6 +46,8 @@ const TimeSettings = () => {
 
   // TODO: make a custom hook for handling form inputs because this code looks like a peace of shit
 
+  //
+
   useEffect(() => {
     if (Number(pomoTimeInput) > maxNum) {
       handlePomoTime(maxNum * SEC_IN_MIN)
