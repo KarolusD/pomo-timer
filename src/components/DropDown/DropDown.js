@@ -28,7 +28,7 @@ const DropDown = () => {
   } = useContext(MenuContext)
 
   const calcHeight = (el) => {
-    const height = el.offsetHeight + 16 // heigh + extra bottom-padding
+    const height = el.getBoundingClientRect().height + 16 // heigh + extra bottom-padding
     setMenuHeight(height)
   }
 
@@ -136,6 +136,7 @@ const DropDown = () => {
               >
                 Daily focus goal
               </DropDownItem>
+
               <FocusGoalSettings />
             </div>
           </CSSTransition>
