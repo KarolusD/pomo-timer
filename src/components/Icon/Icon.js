@@ -2,23 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import SVG from 'react-inlinesvg'
 
-const Icon = ({ src, fill }) => (
-  <SVG
-    src={src}
-    cacheRequests={true}
-    preProcessor={(code) => {
-      if (fill) {
-        return code.replace(/fill=".*?"/g, `fill="${fill}"`)
-      } else {
-        return code
-      }
-    }}
-  />
-)
+const Icon = ({ src, fill }) => {
+  return <SVG src={src} fill={fill} />
+}
 
 Icon.propTypes = {
   src: PropTypes.string.isRequired,
   fill: PropTypes.string,
 }
 
-export default React.memo(Icon)
+export default Icon
