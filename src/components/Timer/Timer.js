@@ -43,7 +43,7 @@ const Timer = ({
   // const [timerRef, setTimerRef] = useState(null)
   // const [smallTimerRef, setSmallTimerRef] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
-
+  console.log(timerState)
   const rAF = useRef()
 
   useEffect(() => {
@@ -101,11 +101,13 @@ const Timer = ({
     // Handling timer stop
     if (timerState === 'pomo' && !autoStartPomo) {
       handleTimerRuns(false)
+      console.log('pomo bez autostartu, timer runs na false')
     }
 
     // Handling timer stop
     if (timerState === 'break' && !autoStartBreak) {
       handleTimerRuns(false)
+      console.log('break bez autostartu, tumer runs na false')
     }
 
     // Handling passed pomos
