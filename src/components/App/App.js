@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
+import Loader from '../Loader/Loader'
 import './App.css'
 import Page from '../Page/Page'
 import Timer from '../Timer/Timer'
@@ -19,6 +20,7 @@ const App = () => {
   const [pomoStart, setPomoStart] = useState(false)
   const [passedPomos, setPassedPomos] = useState(0)
   const [timerState, setTimerState] = useState('pomo')
+  const [isLoading, setIsLoading] = useState(true)
 
   const { handleThemeChange } = useContext(ThemeContext)
 
@@ -36,6 +38,7 @@ const App = () => {
     } else {
       setPassedPomos(0)
     }
+    setIsLoading(false)
   }, [])
 
   const handleTimerState = () => {
@@ -89,7 +92,9 @@ const App = () => {
     settingLocalStorage()
   }, [passedPomos, settingLocalStorage])
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <MenuContextProvider>
       <Page>
         <NavBar>
