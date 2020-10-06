@@ -20,7 +20,7 @@ const FinishModal = ({ passedPomos, modalOpen, setModalOpen }) => {
           You achive your daily focus goal, you focused for {passedPomos} pomos.
         </p>
         <p className={styles.rank}>You win a level badge!</p>
-        <BegginerBadge />
+        <BegginerBadge style={{ maxWidth: '300px' }} />
 
         <Button
           handleClick={() => setModalOpen(false)}

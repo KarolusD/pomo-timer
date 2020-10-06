@@ -35,7 +35,7 @@ const NavItem = ({
 
   return (
     <li className={styles.navItem} style={{ backgroundColor: theme.white }}>
-      <a href='_target' onClick={handleClick} ariaLabel={ariaLabel}>
+      <a href='_target' onClick={handleClick} aria-label={ariaLabel}>
         <Icon src={handleIconDisplay()} fill={theme.main} />
       </a>
 
