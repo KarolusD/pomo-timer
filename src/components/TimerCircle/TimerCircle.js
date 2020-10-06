@@ -86,7 +86,10 @@ const TimerCircle = ({
 
       {ifNumber
         ? smallTimer && (
-            <p className={styles.number} style={{ color: theme.main }}>
+            <p
+              className={styles.number}
+              style={{ color: theme.main, width: '48px', textAlign: 'center' }}
+            >
               {pomosGoal - passedPomos > 0
                 ? `x${number}`
                 : `+ ${passedPomos - 4}`}
