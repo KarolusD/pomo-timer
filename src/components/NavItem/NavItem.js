@@ -4,7 +4,14 @@ import { ThemeContext } from '../ThemeContext/ThemeContext'
 import { MenuContext } from '../MenuContext/MenuContext'
 import styles from './NavItem.module.css'
 
-const NavItem = ({ icon, secondaryIcon, changeable, sound, children }) => {
+const NavItem = ({
+  icon,
+  secondaryIcon,
+  changeable,
+  sound,
+  children,
+  ariaLabel,
+}) => {
   const [open, setOpen] = useState(false)
 
   const { theme } = useContext(ThemeContext)
@@ -28,7 +35,7 @@ const NavItem = ({ icon, secondaryIcon, changeable, sound, children }) => {
 
   return (
     <li className={styles.navItem} style={{ backgroundColor: theme.white }}>
-      <a href='_target' onClick={handleClick}>
+      <a href='_target' onClick={handleClick} ariaLabel={ariaLabel}>
         <Icon src={handleIconDisplay()} fill={theme.main} />
       </a>
 

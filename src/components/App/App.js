@@ -98,8 +98,19 @@ const App = () => {
     <MenuContextProvider>
       <Page>
         <NavBar>
-          <NavItem icon={volumeOff} secondaryIcon={volumeOn} changeable sound />
-          <NavItem icon={settings} secondaryIcon={close} changeable>
+          <NavItem
+            icon={volumeOff}
+            secondaryIcon={volumeOn}
+            ariaLabel='sound'
+            changeable
+            sound
+          />
+          <NavItem
+            icon={settings}
+            secondaryIcon={close}
+            ariaLabel='settings'
+            changeable
+          >
             <DropDown />
           </NavItem>
         </NavBar>
