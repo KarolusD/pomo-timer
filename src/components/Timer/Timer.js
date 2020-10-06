@@ -43,7 +43,6 @@ const Timer = ({
   // const [timerRef, setTimerRef] = useState(null)
   // const [smallTimerRef, setSmallTimerRef] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
-
   const rAF = useRef()
 
   useEffect(() => {

@@ -93,7 +93,10 @@ const TimerCircle = ({
             </p>
           )
         : smallTimer && (
-            <div className={styles.tomato}>
+            <div
+              style={{ width: '32px', height: '32px' }}
+              className={styles.tomato}
+            >
               <Icon src={tomato} />
             </div>
           )}

@@ -39,9 +39,7 @@ const App = () => {
   }, [])
 
   const handleTimerState = () => {
-    setTimerState(({ timerState }) =>
-      timerState === 'pomo' ? 'break' : 'pomo'
-    )
+    setTimerState(timerState === 'pomo' ? 'break' : 'pomo')
   }
 
   useEffect(() => {
