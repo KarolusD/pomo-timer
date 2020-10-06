@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Icon.module.css'
 import SVG from 'react-inlinesvg'
 
 const Icon = ({ src, fill }) => (
