@@ -44,16 +44,14 @@
 
 [![Super Heroes Screen Shot][product-screenshot]](https://heroes-fights.netlify.app/hero-vs-hero)
 
-Application where you are able to test your favourite heroes powers.
-Includes over 700 heroes from different universes 🪐
-Uses 3d dice rolling system and dynamic heroes stats
+Application where you are to setup your daily focus goal and timer intervals. With the pomodoro technique you can
+plan your day in more efficient manner. Give it a try ;)
 
-- based on super heroes api: https://github.com/akabab/superhero-api
 
 ### Built With
 
 - [ReactJS](https://reactjs.org/)
-- [styled-components](https://styled-components.com)
+- CSS-modules
 
 ## Getting Started
 
