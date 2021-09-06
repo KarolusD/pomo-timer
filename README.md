@@ -70,7 +70,7 @@ npm install npm@latest -g
 1. Clone the repo
 
 ```sh
-git clone https://github.com/KarolusD/Portfolio2021.git
+git clone https://github.com/KarolusD/pomo-timer.git
 ```
 
 2. Install NPM packages
